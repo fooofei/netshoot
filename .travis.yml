@@ -2,6 +2,8 @@ sudo: required
 services:
   - docker
 
+language: generic
+
 script:
   - docker build . -t fooofei/netshoot-aarch64:latest
 after_script:
