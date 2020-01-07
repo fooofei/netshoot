@@ -46,7 +46,8 @@ RUN set -ex \
     tcpdump \
     tcptraceroute \
     util-linux \
-    vim
+    vim \
+    tree
 
 # apparmor issue #14140
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
