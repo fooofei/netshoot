@@ -47,7 +47,9 @@ RUN set -ex \
     tcptraceroute \
     util-linux \
     vim \
-    tree
+    tree \
+    pstree \
+    htop
 
 # apparmor issue #14140
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
