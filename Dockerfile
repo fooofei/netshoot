@@ -17,7 +17,7 @@ RUN set -ex \
     dhcping \
     drill \
     ethtool \
-    file\
+    file \
     fping \
     iftop \
     iperf \
@@ -52,11 +52,11 @@ RUN set -ex \
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
 
 # Installing ctop - top-like container monitor
-RUN wget https://github.com/bcicen/ctop/releases/download/v0.7.1/ctop-0.7.1-linux-amd64 -O /usr/local/bin/ctop && chmod +x /usr/local/bin/ctop
+RUN wget https://github.com/bcicen/ctop/releases/download/v0.7.3/ctop-0.7.3-linux-arm64 -O /usr/local/bin/ctop && chmod +x /usr/local/bin/ctop
 
 # Installing calicoctl
-ARG CALICOCTL_VERSION=v3.3.1
-RUN wget https://github.com/projectcalico/calicoctl/releases/download/${CALICOCTL_VERSION}/calicoctl && chmod +x calicoctl && mv calicoctl /usr/local/bin
+ARG CALICOCTL_VERSION=v3.9.5
+RUN wget https://github.com/projectcalico/calicoctl/releases/download/${CALICOCTL_VERSION}/calicoctl-linux-arm64 -O calicoctl && chmod +x calicoctl && mv calicoctl /usr/local/bin
 
 # Settings
 ADD motd /etc/motd
