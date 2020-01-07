@@ -2,11 +2,14 @@ sudo: required
 services:
   - docker
 
+script:
+  - docker build . -t fooofei/netshoot-aarch64:latest
+after_script:
+  - docker images
+
 deploy:
   - provider: script
-    script: 
-      - docker build . -t fooofei/netshoot-aarch64:latest
-      - bash ./scripts/docker_push.sh
+    script: bash ./scripts/docker_push.sh
     on:
       branch: aarch64
 arch:
