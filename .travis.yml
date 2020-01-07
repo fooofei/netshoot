@@ -1,0 +1,14 @@
+sudo: required
+services:
+  - docker
+
+deploy:
+  - provider: script
+    script: 
+      - docker build . -t fooofei/netshoot-aarch64:latest
+      - bash ./scripts/docker_push.sh
+    on:
+      branch: aarch64
+arch:
+  - arm64
+os: linux 
