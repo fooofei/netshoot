@@ -49,7 +49,8 @@ RUN set -ex \
     vim \
     tree \
     pstree \
-    htop
+    htop \
+    coreutils
 
 # apparmor issue #14140
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
