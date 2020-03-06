@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.11.3
 
 RUN set -ex \
     && echo "http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
@@ -38,8 +38,8 @@ RUN set -ex \
     nmap-nping \
     openssl \
     py-crypto \
-    py2-virtualenv \
     python2 \
+    python3 \
     scapy \
     socat \
     strace \
