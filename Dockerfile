@@ -38,8 +38,8 @@ RUN set -ex \
     nmap-nping \
     openssl \
     py-crypto \
-    py2-virtualenv \
     python2 \
+    python3 \
     scapy \
     socat \
     strace \
