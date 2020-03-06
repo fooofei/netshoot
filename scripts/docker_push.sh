@@ -1,3 +1,3 @@
 #!/bin/bash
 echo "$DOCKER_PASSWORD" | docker login -u fooofei --password-stdin
-docker push fooofei/netshoot-aarch64:latest
+docker push fooofei/netshoot-x86_64:latest

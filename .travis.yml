@@ -5,7 +5,7 @@ services:
 language: generic
 
 script:
-  - docker build . -t fooofei/netshoot-aarch64:latest
+  - docker build . -t fooofei/netshoot-x86_64:latest
 after_script:
   - docker images
 
@@ -13,7 +13,7 @@ deploy:
   - provider: script
     script: bash ./scripts/docker_push.sh
     on:
-      branch: aarch64
+      branch: x86_64
 arch:
-  - arm64
+  - amd64
 os: linux 
