@@ -11,6 +11,7 @@ git clone https://github.com/fooofei/go_pieces.git
 build_dir=$home/go_pieces/tool/xping
 
 mkdir -p $cur/../bin
+go version
 
 cd $build_dir/tcping
 go build -v
