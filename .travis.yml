@@ -4,6 +4,10 @@ services:
 
 language: generic
 
+go:
+  - 1.13.8
+  - 1.14
+
 script:
   - bash ./scripts/build_ping.sh
   - docker build . -t fooofei/netshoot-x86_64:latest
