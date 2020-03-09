@@ -13,6 +13,7 @@ cd $build_dir
 go build -v
 pwd
 ls -alh
+yum -y install tree
 tree ./tcping
 tree ./httping
 
