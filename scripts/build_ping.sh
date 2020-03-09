@@ -13,6 +13,8 @@ cd $build_dir
 go build -v
 pwd
 ls -alh
+tree ./tcping
+tree ./httping
 
 # copy files
 mkdir -p $cur/../bin
