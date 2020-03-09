@@ -63,7 +63,10 @@ ARG CALICOCTL_VERSION=v3.8.6
 RUN wget https://github.com/projectcalico/calicoctl/releases/download/${CALICOCTL_VERSION}/calicoctl-linux-amd64 -O calicoctl && chmod +x calicoctl && mv calicoctl /usr/local/bin
 
 # Settings
-ADD motd /etc/motd
-ADD profile  /etc/profile
+COPY motd /etc/motd
+COPY profile /etc/profile
+COPY ./bin/httping.linux.x86_64 /usr/bin/httping
+COPY ./bin/tcping.linux.x86_64 /usr/bin/tcping
+RUN chmod +x /usr/bin/tcping && chmod +x /usr/bin/httping
 
 CMD ["/bin/bash","-l"]
