@@ -13,9 +13,8 @@ cd $build_dir
 go build -v
 pwd
 ls -alh
-yum -y install tree
-tree ./tcping
-tree ./httping
+ls -alh ./tcping
+ls -alh ./httping
 
 # copy files
 mkdir -p $cur/../bin
