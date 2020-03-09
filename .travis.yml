@@ -2,12 +2,11 @@ sudo: required
 services:
   - docker
 
-language: go
+language: generic
 
 env: GO111MODULE=on
 
 go:
-  - 1.13.8
   - 1.14
 
 script:
