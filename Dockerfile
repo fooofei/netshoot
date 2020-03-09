@@ -65,8 +65,8 @@ RUN wget https://github.com/projectcalico/calicoctl/releases/download/${CALICOCT
 # Settings
 COPY motd /etc/motd
 COPY profile /etc/profile
-COPY ./bin/httping.linux.x86_64 /usr/bin/httping
-COPY ./bin/tcping.linux.x86_64 /usr/bin/tcping
+COPY ./bin/httping /usr/bin/httping
+COPY ./bin/tcping /usr/bin/tcping
 RUN chmod +x /usr/bin/tcping && chmod +x /usr/bin/httping
 
 CMD ["/bin/bash","-l"]
