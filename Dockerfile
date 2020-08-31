@@ -1,8 +1,9 @@
-FROM alpine:3.11.3
+FROM alpine:3.12.0
 
 RUN set -ex \
     && echo "http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
     && echo "http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    && echo "http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk update \
     && apk upgrade \
     && apk add --no-cache \
@@ -19,6 +20,7 @@ RUN set -ex \
     ethtool \
     file \
     fping \
+    httpie \
     iftop \
     iperf \
     iproute2 \
@@ -27,6 +29,7 @@ RUN set -ex \
     iptraf-ng \
     iputils \
     ipvsadm \
+    jq \
     libc6-compat \
     liboping \
     mtr \
@@ -45,8 +48,10 @@ RUN set -ex \
     strace \
     tcpdump \
     tcptraceroute \
+    tshark \
     util-linux \
     vim \
+    websocat \
     tree \
     pstree \
     htop \
@@ -59,8 +64,15 @@ RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
 RUN wget https://github.com/bcicen/ctop/releases/download/v0.7.3/ctop-0.7.3-linux-arm64 -O /usr/local/bin/ctop && chmod +x /usr/local/bin/ctop
 
 # Installing calicoctl
-ARG CALICOCTL_VERSION=v3.8.6
+ARG CALICOCTL_VERSION=v3.13.3
 RUN wget https://github.com/projectcalico/calicoctl/releases/download/${CALICOCTL_VERSION}/calicoctl-linux-arm64 -O calicoctl && chmod +x calicoctl && mv calicoctl /usr/local/bin
+
+# Installing termshark
+ENV TERMSHARK_VERSION 2.1.1
+RUN wget https://github.com/gcla/termshark/releases/download/v${TERMSHARK_VERSION}/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz -O /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
+    tar -zxvf /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
+    mv termshark_${TERMSHARK_VERSION}_linux_x64/termshark /usr/local/bin/termshark && \
+    chmod +x /usr/local/bin/termshark
 
 # Settings
 COPY motd /etc/motd
