@@ -40,9 +40,7 @@ RUN set -ex \
     nmap \
     nmap-nping \
     openssl \
-    py-crypto \
-    python2 \
-    python3 \
+    py3-crypto \
     scapy \
     socat \
     strace \
@@ -55,7 +53,8 @@ RUN set -ex \
     tree \
     pstree \
     htop \
-    coreutils
+    coreutils \
+    python3
 
 # apparmor issue #14140
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump

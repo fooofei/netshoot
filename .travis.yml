@@ -5,10 +5,8 @@ services:
 # 不可以是 generic 不然不会升级 Go 版本
 language: go
 
-env: GO111MODULE=on
-
 go:
-  - 1.14
+  - 1.15
 
 script:
   - bash ./scripts/build_ping.sh
