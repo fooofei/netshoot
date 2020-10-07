@@ -5,7 +5,7 @@ set -x
 sh -x ${cur}/build_ping.sh
 # 以时间戳作为版本号
 # 格式为 20201007163924
-version=$(date +"%Y%m%d%H%M%S")
+version=`date +"%Y%m%d%H%M%S"`
 image_name=fooofei/netshoot:x86_64-${version}
 
 docker build . -t ${image_name}
