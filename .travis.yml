@@ -10,8 +10,6 @@ go:
 
 script:
   - bash ./scripts/build.sh
-after_script:
-  - docker images
 
 # deploy:
 #   - provider: script
