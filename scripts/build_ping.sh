@@ -1,24 +1,17 @@
 #!/usr/bin/env bash
-
-set -x
-
 cur=$(dirname "$(readlink -f $0)")
+set -x
 
 home=$cur/build_ping
 mkdir -p $home
 cd $home
-git clone https://github.com/fooofei/go_pieces.git
-build_dir=$home/go_pieces/tool/xping
 
-mkdir -p $cur/../bin
+# at home dir
+git clone https://github.com/fooofei/go_pieces.git
+pkg_base_dir=$home/go_pieces/tool/xping
 go version
 
-cd $build_dir/tcping
-go build -v
-ls -alh
-mv $build_dir/tcping/tcping $cur/../bin
+cd $pkg_base_dir
+go build -v -tags netgo -o $cur/bin/tcping ./tcping/
+go build -v -tags netgo -o $cur/bin/httping ./httping/
 
-cd $build_dir/httping
-go build -v
-ls -alh
-mv $build_dir/httping/httping $cur/../bin

@@ -9,16 +9,9 @@ go:
   - 1.15
 
 script:
-  - bash ./scripts/build_ping.sh
-  - docker build . -t fooofei/netshoot-aarch64:latest
-after_script:
-  - docker images
+  - bash ./scripts/build.sh
 
-deploy:
-  - provider: script
-    script: bash ./scripts/docker_push.sh
-    on:
-      branch: aarch64
+
 arch:
   - arm64
 os: linux 
