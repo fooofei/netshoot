@@ -34,7 +34,6 @@ RUN set -ex \
     liboping \
     mtr \
     net-snmp-tools \
-    netcat-openbsd \
     nftables \
     ngrep \
     nmap \
@@ -54,7 +53,9 @@ RUN set -ex \
     pstree \
     htop \
     coreutils \
-    python3
+    python3 \
+    zsh \
+    nmap-ncat
 
 # apparmor issue #14140
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
@@ -76,8 +77,12 @@ RUN wget https://github.com/gcla/termshark/releases/download/v${TERMSHARK_VERSIO
 # Settings
 COPY motd /etc/motd
 COPY profile /etc/profile
-COPY ./bin/httping /usr/bin/httping
-COPY ./bin/tcping /usr/bin/tcping
-RUN chmod +x /usr/bin/tcping && chmod +x /usr/bin/httping
+COPY ./scripts/bin/httping /usr/bin/httping
+COPY ./scripts/bin/tcping /usr/bin/tcping
+COPY ./scripts/shelldoor /usr/bin/shelldoor
+RUN chmod +x /usr/bin/tcping && \
+ chmod +x /usr/bin/httping && \
+ chmod +x /usr/bin/shelldoor
 
-CMD ["/bin/bash","-l"]
+SHELL ["/bin/zsh"]
+CMD ["/bin/zsh","/usr/bin/shelldoor"]
