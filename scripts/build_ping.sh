@@ -10,7 +10,10 @@ pushd $home
 git clone https://github.com/fooofei/go_pieces.git
 pkg_base_dir=$home/go_pieces/tool/xping
 go version
-go build -v -tags netgo -o $cur/bin/tcping $pkg_base_dir/tcping/
-go build -v -tags netgo -o $cur/bin/httping $pkg_base_dir/httping/
+
+pushd $pkg_base_dir
+go build -v -tags netgo -o $cur/bin/tcping ./tcping/
+go build -v -tags netgo -o $cur/bin/httping ./httping/
+popd
 
 popd
