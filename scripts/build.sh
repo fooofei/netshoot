@@ -3,6 +3,8 @@ cur=$(dirname "$(readlink -f $0)")
 set -x
 
 sh -x ${cur}/build_ping.sh
+sh -x  ${cur}/build_rustscan.sh
+
 # 以时间戳作为版本号
 # 格式为 20201007163924
 version=`date +"%Y%m%d%H%M%S"`
