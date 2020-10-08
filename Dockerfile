@@ -25,7 +25,7 @@ RUN set -ex \
     iperf \
     iproute2 \
     ipset \
-    iptables \
+    iptables \ 
     iptraf-ng \
     iputils \
     ipvsadm \
@@ -55,7 +55,8 @@ RUN set -ex \
     coreutils \
     python3 \
     zsh \
-    nmap-ncat
+    nmap-ncat \
+    nmap-scripts
 
 # apparmor issue #14140
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
@@ -72,17 +73,23 @@ ENV TERMSHARK_VERSION 2.1.1
 RUN wget https://github.com/gcla/termshark/releases/download/v${TERMSHARK_VERSION}/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz -O /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
     tar -zxvf /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
     mv termshark_${TERMSHARK_VERSION}_linux_x64/termshark /usr/local/bin/termshark && \
-    chmod +x /usr/local/bin/termshark
+    chmod +x /usr/local/bin/termshark && rm -rf /tmp/* &&  rm -rf termshark_${TERMSHARK_VERSION}_linux_x64/
 
 # Settings
 COPY motd /etc/motd
 COPY profile /etc/profile
-COPY ./scripts/bin/httping /usr/bin/httping
-COPY ./scripts/bin/tcping /usr/bin/tcping
-COPY ./scripts/shelldoor /usr/bin/shelldoor
-RUN chmod +x /usr/bin/tcping && \
- chmod +x /usr/bin/httping && \
- chmod +x /usr/bin/shelldoor
+COPY ./scripts/bin/httping /usr/local/bin/httping
+COPY ./scripts/bin/tcping /usr/local/bin/tcping
+COPY ./scripts/shelldoor /usr/local/bin/shelldoor
+COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
+
+# copy rustscan from another image
+COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
+
+RUN chmod +x /usr/local/bin/tcping && \
+ chmod +x /usr/local/bin/httping && \
+ chmod +x /usr/local/bin/shelldoor && \ 
+ chmod +x /usr/local/bin/maxopenfiles
 
 SHELL ["/bin/zsh"]
-CMD ["/bin/zsh","/usr/bin/shelldoor"]
+CMD ["/bin/zsh","/usr/local/bin/shelldoor"]

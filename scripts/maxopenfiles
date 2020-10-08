@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+# coding=utf-8
+
+# test max open files limit
+
+import os
+from pathlib import Path
+import shutil
+
+
+def main():
+    count = 0
+    base = Path("/tmp/max_open")
+    print(f"pid= {os.getpid()}")
+    if base.exists():
+        shutil.rmtree(base)
+    base.mkdir(parents=True, exist_ok=True)
+
+    # keep files descriptor open
+    open_files = []
+    while True:
+        try:
+            f = open(base / f"{count}", "w+")
+            open_files.append(f)
+            count += 1
+        except OSError as er:
+            print(f"<{type(er)}> {er}")
+            print(f"max open files is {count}")
+            break
+    shutil.rmtree(base)
+
+
+if __name__ == '__main__':
+    main()
