@@ -1,3 +1,17 @@
+###########################################
+# compile RustScan https://github.com/RustScan/RustScan/blob/master/Dockerfile
+FROM rust:alpine as rustscan_builder
+LABEL maintainer="RustScan <https://github.com/RustScan>"
+RUN apk add --no-cache build-base
+
+# Encourage some layer caching here rather then copying entire directory that includes docs to builder container ~CMN
+WORKDIR /usr/src/rustscan
+COPY Cargo.toml Cargo.lock ./
+COPY src/ src/
+RUN cargo install --path .
+
+###########################################
+
 FROM alpine:3.12.0
 
 RUN set -ex \
@@ -55,7 +69,8 @@ RUN set -ex \
     coreutils \
     python3 \
     zsh \
-    nmap-ncat
+    nmap-ncat \
+    nmap-scripts
 
 # apparmor issue #14140
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
@@ -77,12 +92,14 @@ RUN wget https://github.com/gcla/termshark/releases/download/v${TERMSHARK_VERSIO
 # Settings
 COPY motd /etc/motd
 COPY profile /etc/profile
-COPY ./scripts/bin/httping /usr/bin/httping
-COPY ./scripts/bin/tcping /usr/bin/tcping
-COPY ./scripts/shelldoor /usr/bin/shelldoor
-RUN chmod +x /usr/bin/tcping && \
- chmod +x /usr/bin/httping && \
- chmod +x /usr/bin/shelldoor
+COPY ./scripts/bin/httping /usr/local/bin/httping
+COPY ./scripts/bin/tcping /usr/local/bin/tcping
+COPY ./scripts/shelldoor /usr/local/bin/shelldoor
+COPY --from=rustscan_builder /usr/local/cargo/bin/rustscan /usr/local/bin/rustscan
+
+RUN chmod +x /usr/local/bin/tcping && \
+ chmod +x /usr/local/bin/httping && \
+ chmod +x /usr/local/bin/shelldoor
 
 SHELL ["/bin/zsh"]
-CMD ["/bin/zsh","/usr/bin/shelldoor"]
+CMD ["/bin/zsh","/usr/local/bin/shelldoor"]
