@@ -81,6 +81,7 @@ COPY profile /etc/profile
 COPY ./scripts/bin/httping /usr/local/bin/httping
 COPY ./scripts/bin/tcping /usr/local/bin/tcping
 COPY ./scripts/shelldoor /usr/local/bin/shelldoor
+COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
