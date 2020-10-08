@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+# coding=utf-8
+
+
+import os
+import sys
+from pathlib import Path
+import shutil
+
+def main():
+
+    count = 1
+    base = Path("/tmp/max_open")
+    print(f"pid= {os.getpid()}")
+    if base.exists():
+        shutil.rmtree(base)
+    base.mkdir(parents=True, exist_ok=True)
+    while True:
+        f = open(base/f"{count}", "w+")
+        count += 1
+
+if __name__ == '__main__':
+    main()
