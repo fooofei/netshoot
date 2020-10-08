@@ -1,17 +1,3 @@
-###########################################
-# compile RustScan https://github.com/RustScan/RustScan/blob/master/Dockerfile
-FROM rust:alpine as rustscan_builder
-LABEL maintainer="RustScan <https://github.com/RustScan>"
-RUN apk add --no-cache build-base
-
-# Encourage some layer caching here rather then copying entire directory that includes docs to builder container ~CMN
-WORKDIR /usr/src/rustscan
-COPY Cargo.toml Cargo.lock ./
-COPY src/ src/
-RUN cargo install --path .
-
-###########################################
-
 FROM alpine:3.12.0
 
 RUN set -ex \
@@ -95,7 +81,8 @@ COPY profile /etc/profile
 COPY ./scripts/bin/httping /usr/local/bin/httping
 COPY ./scripts/bin/tcping /usr/local/bin/tcping
 COPY ./scripts/shelldoor /usr/local/bin/shelldoor
-COPY --from=rustscan_builder /usr/local/cargo/bin/rustscan /usr/local/bin/rustscan
+# copy rustscan from another image
+COPY --from=rustscan:1 /usr/local/bin/rustscan /usr/local/bin/rustscan
 
 RUN chmod +x /usr/local/bin/tcping && \
  chmod +x /usr/local/bin/httping && \
