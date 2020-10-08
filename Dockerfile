@@ -88,7 +88,8 @@ COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rust
 
 RUN chmod +x /usr/local/bin/tcping && \
  chmod +x /usr/local/bin/httping && \
- chmod +x /usr/local/bin/shelldoor
+ chmod +x /usr/local/bin/shelldoor && \ 
+ chmod +x /usr/local/bin/maxopenfiles
 
 SHELL ["/bin/zsh"]
 CMD ["/bin/zsh","/usr/local/bin/shelldoor"]
