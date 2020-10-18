@@ -4,7 +4,9 @@ set -x
 set -e
 
 sh -x ${cur}/build_ping.sh
-sh -x  ${cur}/build_rustscan.sh
+
+# rustscan not support aarch64
+# sh -x  ${cur}/build_rustscan.sh
 
 # 以时间戳作为版本号
 # 格式为 20201007163924
