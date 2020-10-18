@@ -11,6 +11,7 @@ sh -x  ${cur}/build_rustscan.sh
 version=`date +"%Y%m%d%H%M%S"`
 image_name=swr.cn-north-4.myhuaweicloud.com/fooofei/netshoot:x86_64-${version}
 
+cd ${cur}/..
 docker build . -t ${image_name}
 docker login -u cn-north-4@B1Q1DM5XDUUGNAHACWCE -p 3e70145984642dfb2d9073bb00b6b79f4910a9e90d340a37ca3ce1c231626ef2 swr.cn-north-4.myhuaweicloud.com
 docker push ${image_name}
