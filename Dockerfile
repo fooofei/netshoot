@@ -63,15 +63,15 @@ RUN set -ex \
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
 
 # Installing ctop - top-like container monitor
-RUN curl -k https://github.com/bcicen/ctop/releases/download/v0.7.3/ctop-0.7.3-linux-arm64 > /usr/local/bin/ctop && chmod +x /usr/local/bin/ctop
+RUN axel --insecure -v https://github.com/bcicen/ctop/releases/download/v0.7.3/ctop-0.7.3-linux-arm64 -o /usr/local/bin/ctop && chmod +x /usr/local/bin/ctop
 
 # Installing calicoctl
 ARG CALICOCTL_VERSION=v3.13.3
-RUN curl -k https://github.com/projectcalico/calicoctl/releases/download/${CALICOCTL_VERSION}/calicoctl-linux-arm64 > calicoctl && chmod +x calicoctl && mv calicoctl /usr/local/bin
+RUN axel --insecure -v https://github.com/projectcalico/calicoctl/releases/download/${CALICOCTL_VERSION}/calicoctl-linux-arm64 -o calicoctl && chmod +x calicoctl && mv calicoctl /usr/local/bin
 
 # Installing termshark
 ENV TERMSHARK_VERSION 2.1.1
-RUN curl -k https://github.com/gcla/termshark/releases/download/v${TERMSHARK_VERSION}/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz > /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
+RUN axel --insecure -v https://github.com/gcla/termshark/releases/download/v${TERMSHARK_VERSION}/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz -o /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
     tar -zxvf /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
     mv termshark_${TERMSHARK_VERSION}_linux_x64/termshark /usr/local/bin/termshark && \
     chmod +x /usr/local/bin/termshark && rm -rf /tmp/* &&  rm -rf termshark_${TERMSHARK_VERSION}_linux_x64/
