@@ -6,7 +6,7 @@ services:
 language: go
 
 go:
-  - 1.15
+  - 1.15.x
 
 script:
   - bash ./scripts/build.sh
