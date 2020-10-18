@@ -71,7 +71,7 @@ RUN axel --insecure -q https://github.com/projectcalico/calicoctl/releases/downl
 
 # Installing termshark
 ENV TERMSHARK_VERSION 2.1.1
-RUN axel --insecure -q https://github.com/gcla/termshark/releases/download/v${TERMSHARK_VERSION}/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz -o /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
+RUN axel --insecure -q https://github.com/gcla/termshark/releases/download/v${TERMSHARK_VERSION}/termshark_${TERMSHARK_VERSION}_linux_armv6.tar.gz -o /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
     tar -zxvf /tmp/termshark_${TERMSHARK_VERSION}_linux_x64.tar.gz && \
     mv termshark_${TERMSHARK_VERSION}_linux_x64/termshark /usr/local/bin/termshark && \
     chmod +x /usr/local/bin/termshark && rm -rf /tmp/* &&  rm -rf termshark_${TERMSHARK_VERSION}_linux_x64/
