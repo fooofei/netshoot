@@ -97,7 +97,8 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     ssh-keygen -t rsa -P "" -f /etc/ssh/ssh_host_rsa_key && \
     ssh-keygen -t ecdsa -P "" -f /etc/ssh/ssh_host_ecdsa_key && \
     ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key && \
-    mkdir /etc/dropbear
+    mkdir /etc/dropbear && \ 
+    echo "dropbear -RFEm -p 22" > /usr/local/bin/run_dropbear
 
 RUN chmod +x /usr/local/bin/tcping && \
  chmod +x /usr/local/bin/httping && \
