@@ -7,6 +7,7 @@ export LS_OPTIONS='--color=auto'
 
 # aliases
 alias ls='ls $LS_OPTIONS'
+alias ll="ls -al"
 
 
 function prompt {
@@ -36,5 +37,5 @@ function title {
    echo -ne "\033]0;"$*"\007"  
 }
 
-prompt
+# prompt
 
