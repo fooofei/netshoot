@@ -92,5 +92,5 @@ RUN chmod +x /usr/local/bin/tcping && \
  chmod +x /usr/local/bin/shelldoor && \ 
  chmod +x /usr/local/bin/maxopenfiles
 
-SHELL ["/bin/bash"]
-CMD ["/bin/bash","-l"]
+SHELL ["/bin/zsh"]
+CMD ["/bin/zsh","-l"]
