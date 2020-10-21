@@ -54,13 +54,13 @@ RUN set -ex \
     htop \
     coreutils \
     python3 \
-    zsh \
     nmap-ncat \
     nmap-scripts \
     axel \
     openssh \
     openssh-sftp-server \
-    tzdata
+    tzdata \
+    dropbear
 
 # apparmor issue #14140
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
@@ -96,12 +96,13 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     ssh-keygen -t dsa -P "" -f /etc/ssh/ssh_host_dsa_key && \
     ssh-keygen -t rsa -P "" -f /etc/ssh/ssh_host_rsa_key && \
     ssh-keygen -t ecdsa -P "" -f /etc/ssh/ssh_host_ecdsa_key && \
-    ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key
+    ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key && \
+    mkdir /etc/dropbear
 
 RUN chmod +x /usr/local/bin/tcping && \
  chmod +x /usr/local/bin/httping && \
  chmod +x /usr/local/bin/shelldoor && \ 
  chmod +x /usr/local/bin/maxopenfiles
 
-SHELL ["/bin/zsh"]
-CMD ["/bin/zsh","-l"]
+SHELL ["/bin/bash"]
+CMD ["/bin/bash","-l"]
