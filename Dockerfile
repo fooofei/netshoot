@@ -57,7 +57,9 @@ RUN set -ex \
     zsh \
     nmap-ncat \
     nmap-scripts \
-    axel
+    axel \
+    openssh \
+    tzdata
 
 # apparmor issue #14140
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
@@ -86,6 +88,13 @@ COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
 
 # copy rustscan from another image
 # COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
+
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    sed -i "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config && \
+    ssh-keygen -t dsa -P "" -f /etc/ssh/ssh_host_dsa_key && \
+    ssh-keygen -t rsa -P "" -f /etc/ssh/ssh_host_rsa_key && \
+    ssh-keygen -t ecdsa -P "" -f /etc/ssh/ssh_host_ecdsa_key && \
+    ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key
 
 RUN chmod +x /usr/local/bin/tcping && \
  chmod +x /usr/local/bin/httping && \
