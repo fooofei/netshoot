@@ -59,6 +59,7 @@ RUN set -ex \
     nmap-scripts \
     axel \
     openssh \
+    openssh-sftp-server \
     tzdata
 
 # apparmor issue #14140
@@ -91,6 +92,7 @@ COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     sed -i "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config && \
+    sed -i "s/#PubkeyAuthentication.*/PubkeyAuthentication yes/g" /etc/ssh/sshd_config && \
     ssh-keygen -t dsa -P "" -f /etc/ssh/ssh_host_dsa_key && \
     ssh-keygen -t rsa -P "" -f /etc/ssh/ssh_host_rsa_key && \
     ssh-keygen -t ecdsa -P "" -f /etc/ssh/ssh_host_ecdsa_key && \
