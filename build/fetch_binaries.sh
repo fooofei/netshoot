@@ -51,6 +51,14 @@ get_termshark() {
   esac
 }
 
+get_miniserve() {
+    VERSION=$(get_latest_release svenstaro/miniserve)
+    https://github.com/svenstaro/miniserve/releases/download/v0.10.4/miniserve-v0.10.4-linux-x86_64
+    LINK="https://github.com/svenstaro/miniserve/releases/download/${VERSION}/miniserve-${VERSION}-linux-$(uname -m)"
+    wget "${LINK}" -O /tmp/miniserve && chmod +x /tmp/miniserve
+}
+
 get_ctop
 get_calicoctl
 get_termshark
+get_miniserve

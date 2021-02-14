@@ -20,6 +20,11 @@ COPY ./scripts/build_ping.sh /tmp/build_ping.sh
 RUN chmod +x /tmp/build_ping.sh 
 RUN /tmp/build_ping.sh
 
+### github prebuild binarys not include aarch64, so we build it ourself
+FROM golang as ethr 
+RUN cd /tmp && git clone https://github.com/Microsoft/ethr.git && \
+  cd ethr && go build -v -tags netgo -o /usr/local/bin/ethr .
+
 ### 
 FROM alpine:3.13.1
 
@@ -96,12 +101,12 @@ COPY --from=fetcher /tmp/calicoctl /usr/local/bin/calicoctl
 # Installing termshark
 COPY --from=fetcher /tmp/termshark /usr/local/bin/termshark
 
-# Installing xping
 COPY --from=xping /usr/local/bin/httping /usr/local/bin/httping
 COPY --from=xping /usr/local/bin/tcping /usr/local/bin/tcping
-
 COPY --from=fetcher /usr/local/bin/shelldoor /usr/local/bin/shelldoor
 COPY --from=fetcher /usr/local/bin/maxopenfiles /usr/local/bin/maxopenfiles
+COPY --from=fetcher /tmp/miniserve /usr/local/bin/miniserve
+COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
