@@ -1,3 +1,4 @@
+###
 FROM debian:stable-slim as fetcher
 COPY build/fetch_binaries.sh /tmp/fetch_binaries.sh
 
@@ -7,8 +8,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN chmod +x /tmp/fetch_binaries.sh && /tmp/fetch_binaries.sh
 
-COPY ./scripts/bin/httping /usr/local/bin/httping
-COPY ./scripts/bin/tcping /usr/local/bin/tcping
 COPY ./scripts/shelldoor /usr/local/bin/shelldoor
 COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
 
@@ -17,6 +16,13 @@ RUN chmod +x /usr/local/bin/tcping && \
  chmod +x /usr/local/bin/shelldoor && \ 
  chmod +x /usr/local/bin/maxopenfiles
 
+###
+FROM golang as xping 
+COPY ./scripts/build_ping.sh /tmp/build_ping.sh 
+RUN chmod +x /tmp/build_ping.sh 
+RUN /tmp/build_ping.sh
+
+### 
 FROM alpine:3.13.1
 
 RUN set -ex \
@@ -93,8 +99,8 @@ COPY --from=fetcher /tmp/calicoctl /usr/local/bin/calicoctl
 COPY --from=fetcher /tmp/termshark /usr/local/bin/termshark
 
 # Installing xping
-COPY --from=fetcher /usr/local/bin/httping /usr/local/bin/httping
-COPY --from=fetcher /usr/local/bin/tcping /usr/local/bin/tcping
+COPY --from=xping /usr/local/bin/httping /usr/local/bin/httping
+COPY --from=xping /usr/local/bin/tcping /usr/local/bin/tcping
 
 COPY --from=fetcher /usr/local/bin/shelldoor /usr/local/bin/shelldoor
 COPY --from=fetcher /usr/local/bin/maxopenfiles /usr/local/bin/maxopenfiles

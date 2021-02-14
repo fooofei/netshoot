@@ -12,6 +12,6 @@ pkg_base_dir=$home/go_pieces/tool/xping
 go version
 
 cd $pkg_base_dir
-go build -v -tags netgo -o $cur/bin/tcping ./tcping/
-go build -v -tags netgo -o $cur/bin/httping ./httping/
+go build -v -tags netgo -o /usr/local/bin/tcping ./tcping/
+go build -v -tags netgo -o /usr/local/bin/tcping ./httping/
 

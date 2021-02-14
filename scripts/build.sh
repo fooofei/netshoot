@@ -3,7 +3,6 @@ cur=$(dirname "$(readlink -f $0)")
 set -x
 set -e
 
-sh -x ${cur}/build_ping.sh
 sh -x  ${cur}/build_rustscan.sh
 
 # 以时间戳作为版本号
