@@ -1,4 +1,32 @@
-FROM alpine:3.12.0
+###
+FROM debian:stable-slim as fetcher
+COPY build/fetch_binaries.sh /tmp/fetch_binaries.sh
+
+RUN apt-get update && apt-get install -y \
+  curl \
+  wget
+
+RUN chmod +x /tmp/fetch_binaries.sh && /tmp/fetch_binaries.sh
+
+COPY ./scripts/shelldoor /usr/local/bin/shelldoor
+COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
+
+RUN chmod +x /usr/local/bin/shelldoor && \ 
+ chmod +x /usr/local/bin/maxopenfiles
+
+###
+FROM golang as xping 
+COPY ./scripts/build_ping.sh /tmp/build_ping.sh 
+RUN chmod +x /tmp/build_ping.sh 
+RUN /tmp/build_ping.sh
+
+### github prebuild binarys not include aarch64, so we build it ourself
+FROM golang as ethr 
+RUN cd /tmp && git clone https://github.com/Microsoft/ethr.git && \
+  cd ethr && go build -v -tags netgo -o /usr/local/bin/ethr .
+
+### 
+FROM alpine:3.13.1
 
 RUN set -ex \
     && echo "http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
@@ -34,6 +62,7 @@ RUN set -ex \
     liboping \
     mtr \
     net-snmp-tools \
+    netcat-openbsd \
     nftables \
     ngrep \
     nmap \
@@ -62,33 +91,25 @@ RUN set -ex \
     tzdata \
     dropbear
 
-# apparmor issue #14140
-RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
 
 # Installing ctop - top-like container monitor
-RUN curl -k -L https://github.com/bcicen/ctop/releases/download/v0.7.3/ctop-0.7.3-linux-arm64 -o /usr/local/bin/ctop && chmod +x /usr/local/bin/ctop
+COPY --from=fetcher /tmp/ctop /usr/local/bin/ctop
 
 # Installing calicoctl
-ARG CALICOCTL_VERSION=v3.13.3
-RUN curl -k -L https://github.com/projectcalico/calicoctl/releases/download/${CALICOCTL_VERSION}/calicoctl-linux-arm64 -o calicoctl && chmod +x calicoctl && mv calicoctl /usr/local/bin
+COPY --from=fetcher /tmp/calicoctl /usr/local/bin/calicoctl
 
 # Installing termshark
-ENV TERMSHARK_VERSION 2.1.1
-RUN curl -k -L https://github.com/gcla/termshark/releases/download/v${TERMSHARK_VERSION}/termshark_${TERMSHARK_VERSION}_linux_armv6.tar.gz -o /tmp/termshark_${TERMSHARK_VERSION}_linux_armv6.tar.gz && \
-    tar -zxvf /tmp/termshark_${TERMSHARK_VERSION}_linux_armv6.tar.gz && \
-    mv termshark_${TERMSHARK_VERSION}_linux_armv6/termshark /usr/local/bin/termshark && \
-    chmod +x /usr/local/bin/termshark && rm -rf /tmp/* &&  rm -rf termshark_${TERMSHARK_VERSION}_linux_armv6/
+COPY --from=fetcher /tmp/termshark /usr/local/bin/termshark
 
+COPY --from=xping /usr/local/bin/httping /usr/local/bin/httping
+COPY --from=xping /usr/local/bin/tcping /usr/local/bin/tcping
+COPY --from=fetcher /usr/local/bin/shelldoor /usr/local/bin/shelldoor
+COPY --from=fetcher /usr/local/bin/maxopenfiles /usr/local/bin/maxopenfiles
+COPY --from=fetcher /tmp/miniserve /usr/local/bin/miniserve
+COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 # Settings
 COPY motd /etc/motd
 COPY profile /etc/profile
-COPY ./scripts/bin/httping /usr/local/bin/httping
-COPY ./scripts/bin/tcping /usr/local/bin/tcping
-COPY ./scripts/shelldoor /usr/local/bin/shelldoor
-COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
-
-# copy rustscan from another image
-# COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     sed -i "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config && \
@@ -99,11 +120,6 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key && \
     mkdir /etc/dropbear && \ 
     echo "dropbear -RFEm -p 22" > /usr/local/bin/run_dropbear
-
-RUN chmod +x /usr/local/bin/tcping && \
- chmod +x /usr/local/bin/httping && \
- chmod +x /usr/local/bin/shelldoor && \ 
- chmod +x /usr/local/bin/maxopenfiles
 
 SHELL ["/bin/bash"]
 CMD ["/bin/bash","-l"]

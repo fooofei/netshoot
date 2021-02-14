@@ -3,8 +3,6 @@ cur=$(dirname "$(readlink -f $0)")
 set -x
 set -e
 
-sh -x ${cur}/build_ping.sh
-
 # rustscan not support aarch64
 # sh -x  ${cur}/build_rustscan.sh
 
