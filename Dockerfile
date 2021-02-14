@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
   curl \
   wget
 
-RUN /tmp/fetch_binaries.sh
+RUN chmod +x /tmp/fetch_binaries.sh && /tmp/fetch_binaries.sh
 
 COPY ./scripts/bin/httping /usr/local/bin/httping
 COPY ./scripts/bin/tcping /usr/local/bin/tcping
