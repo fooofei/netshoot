@@ -7,6 +7,16 @@ RUN apt-get update && apt-get install -y \
 
 RUN /tmp/fetch_binaries.sh
 
+COPY ./scripts/bin/httping /usr/local/bin/httping
+COPY ./scripts/bin/tcping /usr/local/bin/tcping
+COPY ./scripts/shelldoor /usr/local/bin/shelldoor
+COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
+
+RUN chmod +x /usr/local/bin/tcping && \
+ chmod +x /usr/local/bin/httping && \
+ chmod +x /usr/local/bin/shelldoor && \ 
+ chmod +x /usr/local/bin/maxopenfiles
+
 FROM alpine:3.13.1
 
 RUN set -ex \
@@ -82,16 +92,19 @@ COPY --from=fetcher /tmp/calicoctl /usr/local/bin/calicoctl
 # Installing termshark
 COPY --from=fetcher /tmp/termshark /usr/local/bin/termshark
 
-# Settings
-COPY motd /etc/motd
-COPY profile /etc/profile
-COPY ./scripts/bin/httping /usr/local/bin/httping
-COPY ./scripts/bin/tcping /usr/local/bin/tcping
-COPY ./scripts/shelldoor /usr/local/bin/shelldoor
-COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
+# Installing xping
+COPY --from=fetcher /usr/local/bin/httping /usr/local/bin/httping
+COPY --from=fetcher /usr/local/bin/tcping /usr/local/bin/tcping
+
+COPY --from=fetcher /usr/local/bin/shelldoor /usr/local/bin/shelldoor
+COPY --from=fetcher /usr/local/bin/maxopenfiles /usr/local/bin/maxopenfiles
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
+
+# Settings
+COPY motd /etc/motd
+COPY profile /etc/profile
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     sed -i "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config && \
@@ -102,11 +115,6 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key && \
     mkdir /etc/dropbear && \ 
     echo "dropbear -RFEm -p 22" > /usr/local/bin/run_dropbear
-
-RUN chmod +x /usr/local/bin/tcping && \
- chmod +x /usr/local/bin/httping && \
- chmod +x /usr/local/bin/shelldoor && \ 
- chmod +x /usr/local/bin/maxopenfiles
 
 SHELL ["/bin/bash"]
 CMD ["/bin/bash","-l"]
