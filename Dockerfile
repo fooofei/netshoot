@@ -11,9 +11,7 @@ RUN chmod +x /tmp/fetch_binaries.sh && /tmp/fetch_binaries.sh
 COPY ./scripts/shelldoor /usr/local/bin/shelldoor
 COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
 
-RUN chmod +x /usr/local/bin/tcping && \
- chmod +x /usr/local/bin/httping && \
- chmod +x /usr/local/bin/shelldoor && \ 
+RUN chmod +x /usr/local/bin/shelldoor && \ 
  chmod +x /usr/local/bin/maxopenfiles
 
 ###
