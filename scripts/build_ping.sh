@@ -13,5 +13,7 @@ go version
 
 cd $pkg_base_dir
 go build -v -tags netgo -o /usr/local/bin/tcping ./tcping/
-go build -v -tags netgo -o /usr/local/bin/tcping ./httping/
+go build -v -tags netgo -o /usr/local/bin/httping ./httping/
 
+ls -al /usr/local/bin/tcping
+ls -al /usr/local/bin/httping
