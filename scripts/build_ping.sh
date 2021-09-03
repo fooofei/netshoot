@@ -8,7 +8,7 @@ cd $home
 
 # at home dir
 git clone https://github.com/fooofei/go_pieces.git
-pkg_base_dir=$home/go_pieces/tool/xping
+pkg_base_dir=$home/go_pieces/tools/xping
 go version
 
 cd $pkg_base_dir
