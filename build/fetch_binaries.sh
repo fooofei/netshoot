@@ -20,7 +20,7 @@ esac
 
 get_file() {
   echo "get file \"$2\" from $1"
-  curl "$1" -o "$2"
+  curl "$1" -L -o "$2"
   echo "md5sum $(md5sum $2)"
   echo "sha256sum $(sha256sum $2)"
 }
