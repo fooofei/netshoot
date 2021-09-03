@@ -1,0 +1,24 @@
+name: buildx
+
+on:
+  pull_request:
+    branches: [x86_64, aarch64]
+  push:
+    branches: [x86_64, aarch64]
+    tags:
+
+jobs:
+  buildx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      - name: Run Buildx
+        run: |
+          bash ./scripts/build.sh
+
+
+            
