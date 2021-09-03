@@ -23,7 +23,7 @@ RUN chmod +x /tmp/build_ping.sh && /tmp/build_ping.sh
 ### github prebuild binarys not include aarch64, so we build it ourself
 FROM golang as ethr 
 RUN cd /tmp && git clone https://github.com/Microsoft/ethr.git && \
-  cd ethr && go build -v -tags netgo -o /usr/local/bin/ethr .
+  cd ethr && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/ethr .
 
 ### 
 FROM alpine:3.14.2
