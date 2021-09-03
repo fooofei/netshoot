@@ -18,10 +18,17 @@ case $ARCH in
         ;;
 esac
 
+get_file() {
+  echo "get file \"$2\" from $1"
+  curl "$1" -o "$2"
+  echo "md5sum $(md5sum $2)"
+  echo "sha256sum $(sha256sum $2)"
+}
+
 get_ctop() {
   VERSION=$(get_latest_release bcicen/ctop | sed -e 's/^v//')
   LINK="https://github.com/bcicen/ctop/releases/download/${VERSION}/ctop-${VERSION}-linux-${ARCH}"
-  curl "$LINK" -o /tmp/ctop && chmod +x /tmp/ctop
+  get_file "$LINK" /tmp/ctop && chmod +x /tmp/ctop
 }
 
 get_calicoctl() {
