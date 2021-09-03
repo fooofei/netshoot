@@ -20,7 +20,7 @@ esac
 
 get_ctop() {
   VERSION=$(get_latest_release bcicen/ctop | sed -e 's/^v//')
-  LINK="https://github.com/bcicen/ctop/releases/download/v${VERSION}/ctop-${VERSION}-linux-${ARCH}"
+  LINK="https://github.com/bcicen/ctop/releases/download/${VERSION}/ctop-${VERSION}-linux-${ARCH}"
   wget "$LINK" -O /tmp/ctop && chmod +x /tmp/ctop
 }
 
@@ -57,7 +57,22 @@ get_miniserve() {
     wget "${LINK}" -O /tmp/miniserve && chmod +x /tmp/miniserve
 }
 
+get_micro() {
+    VERSION=$(get_latest_release zyedidia/micro)
+    if [ "$ARCH" == "amd64" ]; then
+        MICRO_ARCH="linux64-static"
+      else
+        MICRO_ARCH="linux-$ARCH"
+      fi
+    LINK="https://github.com/zyedidia/micro/releases/download/${VERSION}/micro-${VERSION}-${MICRO_ARCH}.tar.gz"
+    wget "${LINK}" -O /tmp/micro.tar.gz && \
+    tar -zxvf /tmp/micro.tar.gz && \
+    mv "micro-${VERSION}/micro" /tmp/micro && \
+    chmod +x /tmp/miniserve
+}
+
 get_ctop
 get_calicoctl
 get_termshark
 get_miniserve
+get_micro
