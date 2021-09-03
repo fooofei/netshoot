@@ -1,0 +1,27 @@
+name: buildx
+
+on:
+  pull_request:
+    branches: [aarch64]
+  push:
+    branches: [aarch64]
+    tags:
+
+jobs:
+  buildx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: build with other action
+        id: runcmd
+        uses: uraimo/run-on-arch-action@v2.0.5
+        with:
+          arch: aarch64
+          distro: ubuntu20.04
+          run: |
+            bash ./scripts/build.sh
+
+
+            

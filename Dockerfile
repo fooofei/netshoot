@@ -8,25 +8,25 @@ RUN apt-get update && apt-get install -y \
 
 RUN chmod +x /tmp/fetch_binaries.sh && /tmp/fetch_binaries.sh
 
+### 自定义二进制
+###
 COPY ./scripts/shelldoor /usr/local/bin/shelldoor
 COPY ./scripts/maxopenfiles /usr/local/bin/maxopenfiles
-
 RUN chmod +x /usr/local/bin/shelldoor && \ 
  chmod +x /usr/local/bin/maxopenfiles
 
 ###
 FROM golang as xping 
 COPY ./scripts/build_ping.sh /tmp/build_ping.sh 
-RUN chmod +x /tmp/build_ping.sh 
-RUN /tmp/build_ping.sh
+RUN chmod +x /tmp/build_ping.sh && /tmp/build_ping.sh
 
 ### github prebuild binarys not include aarch64, so we build it ourself
 FROM golang as ethr 
 RUN cd /tmp && git clone https://github.com/Microsoft/ethr.git && \
-  cd ethr && go build -v -tags netgo -o /usr/local/bin/ethr .
+  cd ethr && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/ethr .
 
 ### 
-FROM alpine:3.13.1
+FROM alpine:3.14.2
 
 RUN set -ex \
     && echo "http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
@@ -68,15 +68,19 @@ RUN set -ex \
     nmap \
     nmap-nping \
     openssl \
-    py3-crypto \
+    py3-pip \
+    py3-setuptools \
     scapy \
     socat \
+    speedtest-cli \
     strace \
     tcpdump \
     tcptraceroute \
     tshark \
     util-linux \
     vim \
+    git \
+    zsh \
     websocat \
     tree \
     pstree \
@@ -106,10 +110,24 @@ COPY --from=xping /usr/local/bin/tcping /usr/local/bin/tcping
 COPY --from=fetcher /usr/local/bin/shelldoor /usr/local/bin/shelldoor
 COPY --from=fetcher /usr/local/bin/maxopenfiles /usr/local/bin/maxopenfiles
 COPY --from=fetcher /tmp/miniserve /usr/local/bin/miniserve
+COPY --from=fetcher /tmp/micro /usr/local/bin/micro
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
-# Settings
-COPY motd /etc/motd
-COPY profile /etc/profile
+
+# Setting User and Home
+USER root
+WORKDIR /root
+ENV HOSTNAME netshoot
+
+# ZSH Themes
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+COPY zshrc .zshrc
+COPY motd motd
+
+
+# Fix permissions for OpenShift
+RUN chmod -R g=u /root
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     sed -i "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config && \
@@ -121,5 +139,5 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     mkdir /etc/dropbear && \ 
     echo "dropbear -RFEm -p 22" > /usr/local/bin/run_dropbear
 
-SHELL ["/bin/bash"]
-CMD ["/bin/bash","-l"]
+# Running ZSH
+CMD ["zsh"]
