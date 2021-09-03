@@ -65,13 +65,13 @@ get_miniserve() {
 }
 
 get_micro() {
-    VERSION=$(get_latest_release zyedidia/micro)
+    VERSION=$(get_latest_release zyedidia/micro | sed -e 's/^v//')
     if [ "$ARCH" == "amd64" ]; then
         MICRO_ARCH="linux64-static"
       else
         MICRO_ARCH="linux-$ARCH"
       fi
-    LINK="https://github.com/zyedidia/micro/releases/download/${VERSION}/micro-${VERSION}-${MICRO_ARCH}.tar.gz"
+    LINK="https://github.com/zyedidia/micro/releases/download/v${VERSION}/micro-${VERSION}-${MICRO_ARCH}.tar.gz"
     get_file "${LINK}" /tmp/micro.tar.gz && \
     tar -zxvf /tmp/micro.tar.gz && \
     mv "micro-${VERSION}/micro" /tmp/micro && \
