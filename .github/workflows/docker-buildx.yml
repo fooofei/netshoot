@@ -2,9 +2,9 @@ name: buildx
 
 on:
   pull_request:
-    branches: [x86_64, aarch64]
+    branches: [x86_64]
   push:
-    branches: [x86_64, aarch64]
+    branches: [x86_64]
     tags:
 
 jobs:
