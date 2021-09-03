@@ -34,7 +34,7 @@ get_ctop() {
 get_calicoctl() {
   VERSION=$(get_latest_release projectcalico/calicoctl)
   LINK="https://github.com/projectcalico/calicoctl/releases/download/${VERSION}/calicoctl-linux-${ARCH}"
-  curl "$LINK" -o /tmp/calicoctl && chmod +x /tmp/calicoctl
+  get_file "$LINK"  /tmp/calicoctl && chmod +x /tmp/calicoctl
 }
 
 get_termshark() {
@@ -50,7 +50,7 @@ get_termshark() {
         TERM_ARCH="$ARCH"
       fi
       LINK="https://github.com/gcla/termshark/releases/download/v${VERSION}/termshark_${VERSION}_linux_${TERM_ARCH}.tar.gz"
-      curl "$LINK" -o /tmp/termshark.tar.gz && \
+      get_file "$LINK" /tmp/termshark.tar.gz && \
       tar -zxvf /tmp/termshark.tar.gz && \
       mv "termshark_${VERSION}_linux_${TERM_ARCH}/termshark" /tmp/termshark && \
       chmod +x /tmp/termshark
@@ -61,7 +61,7 @@ get_termshark() {
 get_miniserve() {
     VERSION=$(get_latest_release svenstaro/miniserve)
     LINK="https://github.com/svenstaro/miniserve/releases/download/${VERSION}/miniserve-${VERSION}-linux-$(uname -m)"
-    curl "${LINK}" -o /tmp/miniserve && chmod +x /tmp/miniserve
+    get_file "${LINK}" /tmp/miniserve && chmod +x /tmp/miniserve
 }
 
 get_micro() {
@@ -72,7 +72,7 @@ get_micro() {
         MICRO_ARCH="linux-$ARCH"
       fi
     LINK="https://github.com/zyedidia/micro/releases/download/${VERSION}/micro-${VERSION}-${MICRO_ARCH}.tar.gz"
-    curl "${LINK}" -o /tmp/micro.tar.gz && \
+    get_file "${LINK}" /tmp/micro.tar.gz && \
     tar -zxvf /tmp/micro.tar.gz && \
     mv "micro-${VERSION}/micro" /tmp/micro && \
     chmod +x /tmp/miniserve
