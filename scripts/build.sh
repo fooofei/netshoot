@@ -4,6 +4,7 @@ set -x
 set -e
 
 echo "uname -a= $(uname -a)"
+echo "uname -m= $(uname -m)"
 
 bash -x  ${cur}/build_rustscan.sh
 

@@ -16,7 +16,7 @@ jobs:
 
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
-      - name: Run Buildx
+      - name: Build
         run: |
           bash ./scripts/build.sh
 
