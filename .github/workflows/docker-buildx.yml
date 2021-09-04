@@ -1,10 +1,11 @@
 name: buildx
 
+# 容器里嵌套容器就不是 aarch64 了，不再构建 aarch64
 on:
   pull_request:
-    branches: [aarch64]
+    branches: []
   push:
-    branches: [aarch64]
+    branches: []
     tags:
 
 jobs:
