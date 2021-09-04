@@ -21,6 +21,9 @@ jobs:
           arch: aarch64
           distro: ubuntu20.04
           run: |
+            apt update
+            apt upgrade
+            apt install docker-ce docker-ce-cli containerd.io
             bash ./scripts/build.sh
 
 
