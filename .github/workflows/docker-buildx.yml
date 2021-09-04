@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       
-      - name: build with other action
+      - name: Build
         id: runcmd
         uses: uraimo/run-on-arch-action@v2.1.1
         with:
