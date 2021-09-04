@@ -28,6 +28,8 @@ get_file() {
 get_ctop() {
   VERSION=$(get_latest_release bcicen/ctop | sed -e 's/^v//')
   LINK="https://github.com/bcicen/ctop/releases/download/${VERSION}/ctop-${VERSION}-linux-${ARCH}"
+  # we cannot download with wget, we will receive http status 302
+  # we need redirect to second url to download file
   get_file "$LINK" /tmp/ctop && chmod +x /tmp/ctop
 }
 
