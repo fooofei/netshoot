@@ -6,9 +6,5 @@ home=$cur/build_rustscan
 mkdir -p $home
 cd $home
 
-git clone https://github.com/RustScan/RustScan.git
-cd RustScan
-docker build . -t rustscan/rustscan:latest
-
-# not have arm64 version, have to build myself
-# docker pull rustscan/rustscan:latest
+git clone https://github.com/fooofei/rustscan-build.git rustscan
+bash ${home}/rustscan/build.sh

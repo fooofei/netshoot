@@ -113,6 +113,9 @@ COPY --from=fetcher /tmp/miniserve /usr/local/bin/miniserve
 COPY --from=fetcher /tmp/micro /usr/local/bin/micro
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 
+# copy rustscan from another image
+COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
+
 # Setting User and Home
 USER root
 WORKDIR /root

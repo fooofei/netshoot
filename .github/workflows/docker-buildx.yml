@@ -26,6 +26,7 @@ jobs:
             apt-get -yq update
             apt-get -yq upgrade
             apt-get -yq install docker.io
+            echo "uname -a= $(uname -a)"
             bash ./scripts/build.sh
 
 
