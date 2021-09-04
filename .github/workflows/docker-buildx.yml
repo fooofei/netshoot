@@ -20,6 +20,8 @@ jobs:
         with:
           arch: aarch64
           distro: ubuntu20.04
+          # setup docker env from https://github.com/uraimo/run-on-arch-action/issues/33
+          # https://github.com/Rothamsted/knetminer/blob/master/.github/workflows/docker-test.yml
           run: |
             apt-get -yq update
             apt-get -yq upgrade
