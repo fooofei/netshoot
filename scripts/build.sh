@@ -3,8 +3,9 @@ cur=$(dirname "$(readlink -f $0)")
 set -x
 set -e
 
-# rustscan not support aarch64
-# sh -x  ${cur}/build_rustscan.sh
+echo "uname -a= $(uname -a)"
+
+bash -x  ${cur}/build_rustscan.sh
 
 # 以时间戳作为版本号
 # 格式为 20201007163924
