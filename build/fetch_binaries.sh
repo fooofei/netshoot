@@ -62,7 +62,6 @@ get_termshark() {
 
 get_miniserve() {
     VERSION=$(get_latest_release svenstaro/miniserve)
-    https://github.com/svenstaro/miniserve/releases/download/v0.17.0/miniserve-v0.17.0-x86_64-unknown-linux-musl
     if [ "$ARCH" == "amd64" ]; then
       MINISERVE_ARCH="x86_64-unknown-linux-musl"
     else
