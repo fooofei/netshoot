@@ -62,17 +62,23 @@ get_termshark() {
 
 get_miniserve() {
     VERSION=$(get_latest_release svenstaro/miniserve)
-    LINK="https://github.com/svenstaro/miniserve/releases/download/${VERSION}/miniserve-${VERSION}-linux-$(uname -m)"
+    https://github.com/svenstaro/miniserve/releases/download/v0.17.0/miniserve-v0.17.0-x86_64-unknown-linux-musl
+    if [ "$ARCH" == "amd64" ]; then
+      MINISERVE_ARCH="x86_64-unknown-linux-musl"
+    else
+      MINISERVE_ARCH="aarch64-unknown-linux-musl"
+    fi
+    LINK="https://github.com/svenstaro/miniserve/releases/download/${VERSION}/miniserve-${VERSION}-${MINISERVE_ARCH}"
     get_file "${LINK}" /tmp/miniserve && chmod +x /tmp/miniserve
 }
 
 get_micro() {
     VERSION=$(get_latest_release zyedidia/micro | sed -e 's/^v//')
     if [ "$ARCH" == "amd64" ]; then
-        MICRO_ARCH="linux64-static"
-      else
-        MICRO_ARCH="linux-$ARCH"
-      fi
+      MICRO_ARCH="linux64-static"
+    else
+      MICRO_ARCH="linux-$ARCH"
+    fi
     LINK="https://github.com/zyedidia/micro/releases/download/v${VERSION}/micro-${VERSION}-${MICRO_ARCH}.tar.gz"
     get_file "${LINK}" /tmp/micro.tar.gz && \
     tar -zxvf /tmp/micro.tar.gz && \
