@@ -26,6 +26,11 @@ RUN cd /tmp && git clone https://github.com/Microsoft/ethr.git && \
   cd ethr && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/ethr .
 
 ### 
+FROM golang as topic 
+COPY ./scripts/build_topic.sh /tmp/build_topic.sh 
+RUN chmod +x /tmp/build_topic.sh && /tmp/build_topic.sh
+
+### 
 FROM alpine:3.14.2
 
 RUN set -ex \
@@ -112,6 +117,7 @@ COPY --from=fetcher /usr/local/bin/maxopenfiles /usr/local/bin/maxopenfiles
 COPY --from=fetcher /tmp/miniserve /usr/local/bin/miniserve
 COPY --from=fetcher /tmp/micro /usr/local/bin/micro
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
+COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
