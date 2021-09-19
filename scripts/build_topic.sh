@@ -10,7 +10,7 @@ cd $home
 git clone https://github.com/silenceshell/topic.git
 go version
 
-cd $topic
+cd topic
 go mod vendor 
 go build -v -mod=vendor -tags netgo -o /usr/local/bin/topic ./cmd/topic/
 
