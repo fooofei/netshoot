@@ -26,7 +26,17 @@ RUN cd /tmp && git clone https://github.com/Microsoft/ethr.git && \
   cd ethr && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/ethr .
 
 ### 
-FROM alpine:3.14.2
+FROM golang as topic 
+COPY ./scripts/build_topic.sh /tmp/build_topic.sh 
+RUN chmod +x /tmp/build_topic.sh && /tmp/build_topic.sh
+
+### 
+FROM golang as httpstat 
+RUN cd /tmp && git clone https://github.com/davecheney/httpstat.git && \
+  cd httpstat && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/httpstat .
+
+### 
+FROM alpine:3.15.0
 
 RUN set -ex \
     && echo "http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
@@ -48,9 +58,9 @@ RUN set -ex \
     ethtool \
     file \
     fping \
-    httpie \
     iftop \
     iperf \
+    iperf3 \
     iproute2 \
     ipset \
     iptables \ 
@@ -82,6 +92,8 @@ RUN set -ex \
     git \
     zsh \
     websocat \
+    swaks \
+    aria2 \
     tree \
     pstree \
     htop \
@@ -95,6 +107,8 @@ RUN set -ex \
     tzdata \
     dropbear
 
+# Installing httpie ( https://httpie.io/docs#installation)
+RUN pip3 install --upgrade httpie
 
 # Installing ctop - top-like container monitor
 COPY --from=fetcher /tmp/ctop /usr/local/bin/ctop
@@ -112,6 +126,8 @@ COPY --from=fetcher /usr/local/bin/maxopenfiles /usr/local/bin/maxopenfiles
 COPY --from=fetcher /tmp/miniserve /usr/local/bin/miniserve
 COPY --from=fetcher /tmp/micro /usr/local/bin/micro
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
+COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
+COPY --from=httpstat /usr/local/bin/httpstat /usr/local/bin/httpstat
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
