@@ -8,7 +8,8 @@ export ZSH=$HOME/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #export TERM="xterm-256color"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="ys"
 
 ZSH_DISABLE_COMPFIX="true"
 
@@ -75,7 +76,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 # User configuration
-cat motd
+# cat motd
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
