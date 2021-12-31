@@ -576,15 +576,31 @@ Termshark is a terminal user-interface for tshark. It allows user to read pcap f
 
 ```
 # Launching netshoot with NET_ADMIN and CAP_NET_RAW capabilities. Capturing packets on eth0 with icmp 
-/ # docker run --rm --cap-add=NET_ADMIN --cap-add=CAP_NET_RAW -it nicolaka/netshoot termshark -i eth0 icmp
+/ # docker run --rm --cap-add=NET_ADMIN --cap-add=NET_RAW -it nicolaka/netshoot termshark -i eth0 icmp
 ```
 
 ```
 # Launching netshoot with NET_ADMIN and CAP_NET_RAW capabilities Reading packets from ipv4frags.pcap
 
-/ # docker run --rm --cap-add=NET_ADMIN --cap-add=CAP_NET_RAW -v /tmp/ipv4frags.pcap:/tmp/ipv4frags.pcap -it nicolaka/netshoot termshark -r /tmp/ipv4frags.pcap
+/ # docker run --rm --cap-add=NET_ADMIN --cap-add=NET_RAW -v /tmp/ipv4frags.pcap:/tmp/ipv4frags.pcap -it nicolaka/netshoot termshark -r /tmp/ipv4frags.pcap
 ```
 More info on `termshark` [here](https://github.com/gcla/termshark)
+
+## Swaks
+
+Swaks (Swiss Army Knife for SMTP) is a featureful, flexible, scriptable, transaction-oriented SMTP test tool. It is free to use and licensed under the GNU GPLv2.
+
+You can use it to test and troubleshoot email servers with a crystal-clear syntax:
+
+```bash
+swaks --to user@example.com \
+  --from fred@example.com --h-From: '"Fred Example" <fred@example.com>' \
+  --auth CRAM-MD5 --auth-user me@example.com \
+  --header-X-Test "test email" \
+  --data "Example body"
+```
+
+More info, examples and lots of documentation on `Swaks` [here](http://www.jetmore.org/john/code/swaks/)
 
 ## Feedback & Contribution
 
