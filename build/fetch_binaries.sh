@@ -120,7 +120,7 @@ get_helm() {
     # https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
     FILE_NAME="helm-${VERSION}-linux-${ARCH}"
     UNZIP_FILE_NAME="linux-${ARCH}"
-    LINK="https://get.helm.sh/${VERSION}/${FILE_NAME}.tar.gz"
+    LINK="https://get.helm.sh/${FILE_NAME}.tar.gz"
     get_file "${LINK}" /tmp/helm.tar.gz && \
     tar -zxvf /tmp/helm.tar.gz && \
     mv "${UNZIP_FILE_NAME}/helm" /tmp/helm && \
