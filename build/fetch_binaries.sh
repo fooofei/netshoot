@@ -85,8 +85,63 @@ get_micro() {
     chmod +x /tmp/miniserve
 }
 
+get_dust() {
+    # e.g. "tag_name": "v0.7.5",
+    VERSION=$(get_latest_release bootandy/dust)
+    if [ "$ARCH" == "amd64" ]; then
+      FILE_NAME="dust-${VERSION}-x86_64-unknown-linux-musl"
+    else
+      FILE_NAME="dust-${VERSION}-arm-unknown-linux-gnueabihf"
+    fi
+    # https://github.com/bootandy/dust/releases/download/v0.7.5/dust-v0.7.5-x86_64-unknown-linux-musl.tar.gz
+    # https://github.com/bootandy/dust/releases/download/v0.7.5/dust-v0.7.5-arm-unknown-linux-gnueabihf.tar.gz
+    LINK="https://github.com/bootandy/dust/releases/download/${VERSION}/${FILE_NAME}.tar.gz"
+    get_file "${LINK}" /tmp/dust.tar.gz && \
+    tar -zxvf /tmp/dust.tar.gz && \
+    mv "${FILE_NAME}/dust" /tmp/dust && \
+    chmod +x /tmp/dust
+}
+
+get_etcdctl() {
+    # e.g. https://api.github.com/repos/etcd-io/etcd/releases/latest "tag_name": "v3.5.1",
+    VERSION=$(get_latest_release etcd-io/etcd)
+    # https://github.com/etcd-io/etcd/releases/download/v3.5.1/etcd-v3.5.1-linux-amd64.tar.gz
+    FILE_NAME="etcd-${VERSION}-linux-${ARCH}"
+    LINK="https://github.com/etcd-io/etcd/releases/download/${VERSION}/${FILE_NAME}.tar.gz"
+    get_file "${LINK}" /tmp/etcdctl.tar.gz && \
+    tar -zxvf /tmp/etcdctl.tar.gz && \
+    mv "${FILE_NAME}/etcdctl" /tmp/etcdctl && \
+    chmod +x /tmp/etcdctl
+}
+
+get_helm() {
+    # e.g. https://api.github.com/repos/helm/helm/releases/latest "tag_name": "v3.7.2",
+    VERSION=$(get_latest_release helm/helm)
+    # https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
+    FILE_NAME="helm-${VERSION}-linux-${ARCH}"
+    UNZIP_FILE_NAME="linux-${ARCH}"
+    LINK="https://get.helm.sh/${VERSION}/${FILE_NAME}.tar.gz"
+    get_file "${LINK}" /tmp/helm.tar.gz && \
+    tar -zxvf /tmp/helm.tar.gz && \
+    mv "${UNZIP_FILE_NAME}/helm" /tmp/helm && \
+    chmod +x /tmp/helm
+}
+
+get_kubectl() {
+    # https://storage.googleapis.com/kubernetes-release/release/stable.txt
+    VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    # https://dl.k8s.io/release/v1.22.3/bin/linux/amd64/kubectl
+    LINK="https://dl.k8s.io/release/${VERSION}/bin/linux/${ARCH}/kubectl"
+    get_file "${LINK}" /tmp/kubectl && \
+    chmod +x /tmp/kubectl
+}
+
 get_ctop
 get_calicoctl
 get_termshark
 get_miniserve
 get_micro
+get_dust
+get_etcdctl
+get_helm
+get_kubectl
