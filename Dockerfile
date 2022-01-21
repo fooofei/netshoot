@@ -36,7 +36,7 @@ RUN cd /tmp && git clone https://github.com/davecheney/httpstat.git && \
   cd httpstat && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/httpstat .
 
 ### 
-FROM golang as rinted
+FROM golang as rinetd
 COPY ./scripts/build_rinetd.sh /tmp/build_rinetd.sh 
 RUN chmod +x /tmp/build_rinetd.sh && /tmp/build_rinetd.sh
 
@@ -138,7 +138,7 @@ COPY --from=fetcher /tmp/nerdctl /usr/local/bin/nerdctl
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 COPY --from=httpstat /usr/local/bin/httpstat /usr/local/bin/httpstat
-COPY --from=rinted /usr/local/bin/rinted /usr/local/bin/rinted
+COPY --from=rinetd /usr/local/bin/rinetd /usr/local/bin/rinetd
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
