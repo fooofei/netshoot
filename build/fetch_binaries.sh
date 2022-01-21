@@ -136,6 +136,19 @@ get_kubectl() {
     chmod +x /tmp/kubectl
 }
 
+get_nerdctl() {
+    # e.g. https://api.github.com/repos/containerd/nerdctl/releases/latest "tag_name": "v0.16.0",
+    VERSION=$(get_latest_release containerd/nerdctl | sed -e 's/^v//')
+    # https://github.com/containerd/nerdctl/releases/download/v0.16.0/nerdctl-0.16.0-linux-arm64.tar.gz
+    FILE_NAME="nerdctl-${VERSION}-linux-${ARCH}"
+    UNZIP_FILE_NAME="linux-${ARCH}"
+    LINK="https://github.com/containerd/nerdctl/releases/download/v${VERSION}/${FILE_NAME}.tar.gz"
+    get_file "${LINK}" /tmp/nerdctl.tar.gz && \
+    tar -zxvf /tmp/nerdctl.tar.gz && \
+    mv nerdctl /tmp/nerdctl && \
+    chmod +x /tmp/nerdctl
+}
+
 get_ctop
 get_calicoctl
 get_termshark
@@ -145,3 +158,4 @@ get_dust
 get_etcdctl
 get_helm
 get_kubectl
+get_nerdctl
