@@ -149,6 +149,27 @@ get_nerdctl() {
     chmod +x /tmp/nerdctl
 }
 
+get_fd_files() {
+    # e.g. https://api.github.com/repos/sharkdp/fd/releases/latest "tag_name": "v8.3.1",
+    VERSION=$(get_latest_release sharkdp/fd)
+    # https://github.com/sharkdp/fd/releases/download/v8.3.1/fd-v8.3.1-x86_64-unknown-linux-musl.tar.gz
+    # https://github.com/sharkdp/fd/releases/download/v8.3.1/fd-v8.3.1-arm-unknown-linux-musleabihf.tar.gz
+    FILE_NAME="nerdctl-${VERSION}-linux-${ARCH}"
+    case "${ARCH}" in
+      arm64)
+        FILE_NAME="fd-${VERSION}-arm-unknown-linux-musleabihf"
+        ;;
+      amd64)
+        FILE_NAME="fd-${VERSION}-x86_64-unknown-linux-musl"
+        ;;
+    esac
+    LINK="https://github.com/sharkdp/fd/releases/download/${VERSION}/${FILE_NAME}.tar.gz"
+    get_file "${LINK}" /tmp/fdfiles.tar.gz && \
+    tar -zxvf /tmp/fdfiles.tar.gz && \
+    mv ${FILE_NAME}/fd /tmp/fd && \
+    chmod +x /tmp/fd
+}
+
 get_ctop
 get_calicoctl
 get_termshark
@@ -159,3 +180,4 @@ get_etcdctl
 get_helm
 get_kubectl
 get_nerdctl
+get_fd_files

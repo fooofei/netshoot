@@ -135,6 +135,7 @@ COPY --from=fetcher /tmp/etcdctl /usr/local/bin/etcdctl
 COPY --from=fetcher /tmp/helm /usr/local/bin/helm
 COPY --from=fetcher /tmp/kubectl /usr/local/bin/kubectl
 COPY --from=fetcher /tmp/nerdctl /usr/local/bin/nerdctl
+COPY --from=fetcher /tmp/fd /usr/local/bin/fd
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 COPY --from=httpstat /usr/local/bin/httpstat /usr/local/bin/httpstat
