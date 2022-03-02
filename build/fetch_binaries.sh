@@ -184,8 +184,7 @@ get_gost() {
   esac
   LINK="https://github.com/ginuerzh/gost/releases/download/v${VERSION}/${FILE_NAME}.gz"
   get_file "${LINK}" /tmp/gostfiles.tar.gz && \
-  gunzip /tmp/gostfiles.tar.gz && \
-  mv gostfiles /tmp/gost && \
+  gunzip -c /tmp/gostfiles.tar.gz > /tmp/gost && \
   chmod +x /tmp/gost
 }
 
