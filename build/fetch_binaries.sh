@@ -154,7 +154,6 @@ get_fd_files() {
     VERSION=$(get_latest_release sharkdp/fd)
     # https://github.com/sharkdp/fd/releases/download/v8.3.1/fd-v8.3.1-x86_64-unknown-linux-musl.tar.gz
     # https://github.com/sharkdp/fd/releases/download/v8.3.1/fd-v8.3.1-arm-unknown-linux-musleabihf.tar.gz
-    FILE_NAME="nerdctl-${VERSION}-linux-${ARCH}"
     case "${ARCH}" in
       arm64)
         FILE_NAME="fd-${VERSION}-arm-unknown-linux-musleabihf"
@@ -170,6 +169,26 @@ get_fd_files() {
     chmod +x /tmp/fd
 }
 
+get_gost() {
+  # e.g. https://api.github.com/repos/ginuerzh/gost/releases/latest "tag_name":  "v2.11.1",
+  VERSION=$(get_latest_release ginuerzh/gost | sed -e 's/^v//')
+  # https://github.com/ginuerzh/gost/releases/download/v2.11.1/gost-linux-amd64-2.11.1.gz
+  # https://github.com/ginuerzh/gost/releases/download/v2.11.1/gost-linux-armv8-2.11.1.gz
+  case "${ARCH}" in
+    arm64)
+      FILE_NAME="gost-linux-armv8"
+      ;;
+    amd64)
+      FILE_NAME="gost-linux-amd64"
+      ;;
+  esac
+  LINK="https://github.com/ginuerzh/gost/releases/download/v${VERSION}/${FILE_NAME}-${VERSION}.gz"
+  get_file "${LINK}" /tmp/gostfiles.tar.gz && \
+  tar -xvf /tmp/gostfiles.tar.gz && \
+  mv ${FILE_NAME} /tmp/gost && \
+  chmod +x /tmp/gost
+}
+
 get_ctop
 get_calicoctl
 get_termshark
@@ -181,3 +200,4 @@ get_helm
 get_kubectl
 get_nerdctl
 get_fd_files
+get_gost
