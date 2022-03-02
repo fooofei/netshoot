@@ -176,16 +176,16 @@ get_gost() {
   # https://github.com/ginuerzh/gost/releases/download/v2.11.1/gost-linux-armv8-2.11.1.gz
   case "${ARCH}" in
     arm64)
-      FILE_NAME="gost-linux-armv8"
+      FILE_NAME="gost-linux-armv8-${VERSION}"
       ;;
     amd64)
-      FILE_NAME="gost-linux-amd64"
+      FILE_NAME="gost-linux-amd64-${VERSION}"
       ;;
   esac
-  LINK="https://github.com/ginuerzh/gost/releases/download/v${VERSION}/${FILE_NAME}-${VERSION}.gz"
+  LINK="https://github.com/ginuerzh/gost/releases/download/v${VERSION}/${FILE_NAME}.gz"
   get_file "${LINK}" /tmp/gostfiles.tar.gz && \
-  tar -xvf /tmp/gostfiles.tar.gz && \
-  mv ${FILE_NAME} /tmp/gost && \
+  gunzip /tmp/gostfiles.tar.gz && \
+  mv gostfiles /tmp/gost && \
   chmod +x /tmp/gost
 }
 
