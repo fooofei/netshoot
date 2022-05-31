@@ -12,9 +12,9 @@ pkg_base_dir=$home/go_pieces/tools/xping
 go version
 
 cd $pkg_base_dir
-go mod vendor
-go build -v -mod=vendor -tags netgo -o /usr/local/bin/tcping ./tcping/
-go build -v -mod=vendor -tags netgo -o /usr/local/bin/httping ./httping/
+bash -x build.sh
+mv tcping/tcping-linux-amd64 /usr/local/bin/tcping
+mv httping/httping-linux-amd64 /usr/local/bin/httping
 
 ls -al /usr/local/bin/tcping
 ls -al /usr/local/bin/httping
