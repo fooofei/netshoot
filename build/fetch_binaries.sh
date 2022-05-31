@@ -206,8 +206,10 @@ get_df_duf() {
   esac
   LINK="https://github.com/muesli/duf/releases/download/v${VERSION}/${FILE_NAME}.tar.gz"
   get_file "${LINK}" /tmp/dfduf.tar.gz && \
-  tar -xf /tmp/dfduf.tar.gz && \
-  chmod +x /tmp/duf
+  mkdir -p /tmp/dfduf && \
+  tar -xf /tmp/dfduf.tar.gz -C /tmp/dfduf && \
+  chmod +x /tmp/dfduf/duf && \
+  mv /tmp/dfduf/duf /tmp/duf
 }
 
 # Duf is a simple file server. Support static serve, search, upload, delete...
