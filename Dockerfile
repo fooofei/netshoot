@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
   curl \
   wget
 
-RUN chmod +x /tmp/fetch_binaries.sh && /tmp/fetch_binaries.sh
+RUN bash -x /tmp/fetch_binaries.sh
 
 ### 自定义二进制
 ###
@@ -41,7 +41,7 @@ COPY ./scripts/build_rinetd.sh /tmp/build_rinetd.sh
 RUN chmod +x /tmp/build_rinetd.sh && /tmp/build_rinetd.sh
 
 ### 
-FROM alpine:3.15.0
+FROM alpine:3.16.0
 
 RUN set -ex \
     && echo "http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
@@ -82,6 +82,7 @@ RUN set -ex \
     ngrep \
     nmap \
     nmap-nping \
+    nmap-scripts \
     openssl \
     py3-pip \
     py3-setuptools \
@@ -137,6 +138,9 @@ COPY --from=fetcher /tmp/kubectl /usr/local/bin/kubectl
 COPY --from=fetcher /tmp/nerdctl /usr/local/bin/nerdctl
 COPY --from=fetcher /tmp/fd /usr/local/bin/fd
 COPY --from=fetcher /tmp/gost /usr/local/bin/gost
+COPY --from=fetcher /tmp/duf /usr/local/bin/duf
+COPY --from=fetcher /tmp/file-server-duf/duf /usr/local/bin/file-server-duf
+COPY --from=fetcher /tmp/upt /usr/local/bin/upt
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 COPY --from=httpstat /usr/local/bin/httpstat /usr/local/bin/httpstat

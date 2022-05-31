@@ -25,20 +25,23 @@ get_file() {
   echo "sha256sum $(sha256sum $2)"
 }
 
+# Top-like interface for container metrics
 get_ctop() {
   VERSION=$(get_latest_release bcicen/ctop | sed -e 's/^v//')
-  LINK="https://github.com/bcicen/ctop/releases/download/${VERSION}/ctop-${VERSION}-linux-${ARCH}"
+  LINK="https://github.com/bcicen/ctop/releases/download/v${VERSION}/ctop-${VERSION}-linux-${ARCH}"
   # we cannot download with wget, we will receive http status 302
   # we need redirect to second url to download file
   get_file "$LINK" /tmp/ctop && chmod +x /tmp/ctop
 }
 
+# Cloud native networking and network security
 get_calicoctl() {
-  VERSION=$(get_latest_release projectcalico/calicoctl)
-  LINK="https://github.com/projectcalico/calicoctl/releases/download/${VERSION}/calicoctl-linux-${ARCH}"
+  VERSION=$(get_latest_release projectcalico/calico)
+  LINK="https://github.com/projectcalico/calico/releases/download/${VERSION}/calicoctl-linux-${ARCH}"
   get_file "$LINK"  /tmp/calicoctl && chmod +x /tmp/calicoctl
 }
 
+# A terminal UI for tshark, inspired by Wireshark
 get_termshark() {
   case "$ARCH" in
     "arm"*)
@@ -188,6 +191,56 @@ get_gost() {
   chmod +x /tmp/gost
 }
 
+# Disk Usage/Free Utility - a better 'df' alternative
+get_df_duf() {
+  # e.g. https://api.github.com/repos/muesli/duf/releases/latest "tag_name": "v0.8.1"
+  VERSION=$(get_latest_release muesli/duf | sed -e 's/^v//')
+  # https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_x86_64.tar.gz
+  case "${ARCH}" in
+    arm64)
+      FILE_NAME="duf_${VERSION}_linux_arm64"
+      ;;
+    amd64)
+      FILE_NAME="duf_${VERSION}_linux_x86_64"
+      ;;
+  esac
+  LINK="https://github.com/muesli/duf/releases/download/v${VERSION}/${FILE_NAME}.tar.gz"
+  get_file "${LINK}" /tmp/dfduf.tar.gz && \
+  tar -xf /tmp/dfduf.tar.gz && \
+  chmod +x /tmp/duf
+}
+
+# Duf is a simple file server. Support static serve, search, upload, delete...
+get_file_server_duf() {
+  # e.g. https://api.github.com/repos/sigoden/duf/releases/latest   "name": "v0.7.0"
+  VERSION=$(get_latest_release sigoden/duf)
+  # https://github.com/sigoden/duf/releases/download/v0.7.0/duf-v0.7.0-x86_64-unknown-linux-musl.tar.gz
+  # https://github.com/sigoden/duf/releases/download/v0.7.0/duf-v0.7.0-aarch64-unknown-linux-musl.tar.gz
+  case "${ARCH}" in
+    arm64)
+      FILE_NAME="duf-${VERSION}-aarch64"
+      ;;
+    amd64)
+      FILE_NAME="duf-${VERSION}-x86_64"
+      ;;
+  esac
+  LINK="https://github.com/sigoden/duf/releases/download/${VERSION}/${FILE_NAME}-unknown-linux-musl.tar.gz"
+  get_file "${LINK}" /tmp/file-server-duf.tar.gz && \
+  mkdir -p /tmp/file-server-duf && \
+  tar -xf /tmp/file-server-duf.tar.gz -C /tmp/file-server-duf && \
+  chmod +x /tmp/file-server-duf/duf
+}
+
+# Universal Package-management Tool for Windows, macOS and Linux.
+get_pmt_upt() {
+  # e.g. https://api.github.com/repos/sigoden/upt/releases/latest   "tag_name": "v0.7.0",
+  VERSION=$(get_latest_release sigoden/upt)
+  # https://github.com/sigoden/upt/releases/download/v0.3.0/upt-x86_64-unknown-linux-musl
+  LINK="https://github.com/sigoden/upt/releases/download/${VERSION}/upt-x86_64-unknown-linux-musl"
+  get_file "${LINK}" /tmp/upt && \
+  chmod +x /tmp/upt
+}
+
 get_ctop
 get_calicoctl
 get_termshark
@@ -200,3 +253,6 @@ get_kubectl
 get_nerdctl
 get_fd_files
 get_gost
+get_df_duf
+get_file_server_duf
+get_pmt_upt
