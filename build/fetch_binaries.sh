@@ -250,7 +250,7 @@ get_curl_xh() {
   # https://github.com/ducaale/xh/releases/download/v0.16.1/xh-v0.16.1-x86_64-unknown-linux-musl.tar.gz
   LINK="https://github.com/ducaale/xh/releases/download/${VERSION}/xh-${VERSION}-x86_64-unknown-linux-musl.tar.gz"
   get_file "${LINK}" /tmp/curl-xh.tar.gz && \
-  tar -xf /tmp/curl-xh.tar.gz -C /tmp/curl-xh-dir && \
+  mkdir -p /tmp/curl-xh-dir && tar -xf /tmp/curl-xh.tar.gz -C /tmp/curl-xh-dir && \
   mv /tmp/curl-xh-dir/xh-${VERSION}-x86_64-unknown-linux-musl/xh /tmp/curl-xh && \
   chmod +x /tmp/curl-xh
 }
