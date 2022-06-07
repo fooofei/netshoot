@@ -243,6 +243,18 @@ get_pmt_upt() {
   chmod +x /tmp/upt
 }
 
+# Friendly and fast tool for sending HTTP requests
+get_curl_xh() {
+  # e.g. https://api.github.com/repos/ducaale/xh/releases/latest     "tag_name": "v0.16.1"
+  VERSION=$(get_latest_release ducaale/xh)
+  # https://github.com/ducaale/xh/releases/download/v0.16.1/xh-v0.16.1-x86_64-unknown-linux-musl.tar.gz
+  LINK="https://github.com/ducaale/xh/releases/download/${VERSION}/xh-${VERSION}-x86_64-unknown-linux-musl.tar.gz"
+  get_file "${LINK}" /tmp/curl-xh.tar.gz && \
+  tar -xf /tmp/curl-xh.tar.gz -C /tmp/curl-xh-dir && \
+  mv /tmp/curl-xh-dir/xh-${VERSION}-x86_64-unknown-linux-musl/xh /tmp/curl-xh && \
+  chmod +x /tmp/curl-xh
+}
+
 get_ctop
 get_calicoctl
 get_termshark
@@ -258,3 +270,4 @@ get_gost
 get_df_duf
 get_file_server_duf
 get_pmt_upt
+get_curl_xh
