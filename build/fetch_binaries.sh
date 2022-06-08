@@ -255,6 +255,18 @@ get_curl_xh() {
   chmod +x /tmp/curl-xh
 }
 
+# A zero trust swiss army knife for working with X509, OAuth, JWT, OATH OTP, etc.
+get_small_step() {
+  # e.g. https://api.github.com/repos/smallstep/cli/releases/latest      "tag_name": "v0.20.0"
+  VERSION=$(get_latest_release smallstep/cli | sed -e 's/^v//')
+  # https://github.com/smallstep/cli/releases/download/v0.20.0/step_linux_0.20.0_amd64.tar.gz
+  LINK="https://github.com/smallstep/cli/releases/download/v${VERSION}/step_linux_${VERSION}_${ARCH}.tar.gz"
+  get_file "${LINK}" /tmp/smallstep.tar.gz && \
+  mkdir -p /tmp/smallstep && tar -xf /tmp/smallstep.tar.gz -C /tmp/smallstep && \
+  mv /tmp/smallstep/step_${VERSION}/bin/step /tmp/step && \
+  chmod +x /tmp/step
+}
+
 get_ctop
 get_calicoctl
 get_termshark
@@ -271,3 +283,4 @@ get_df_duf
 get_file_server_duf
 get_pmt_upt
 get_curl_xh
+get_small_step

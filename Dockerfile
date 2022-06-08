@@ -142,6 +142,7 @@ COPY --from=fetcher /tmp/duf /usr/local/bin/duf
 COPY --from=fetcher /tmp/file-server-duf/duf /usr/local/bin/file-server-duf
 COPY --from=fetcher /tmp/upt /usr/local/bin/upt
 COPY --from=fetcher /tmp/curl-xh /usr/local/bin/curl-xh
+COPY --from=fetcher /tmp/step /usr/local/bin/step
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 COPY --from=httpstat /usr/local/bin/httpstat /usr/local/bin/httpstat
@@ -161,6 +162,7 @@ RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 COPY zshrc .zshrc
 COPY motd motd
+COPY usermanual usermanual
 
 
 # Fix permissions for OpenShift
@@ -174,7 +176,7 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     ssh-keygen -t ecdsa -P "" -f /etc/ssh/ssh_host_ecdsa_key && \
     ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key && \
     mkdir /etc/dropbear && \ 
-    echo "dropbear -RFEm -p 22" > /usr/local/bin/run_dropbear
+    echo "dropbear -RFEm -p 22" > /usr/local/bin/run_dropbear && chmod +x /usr/local/bin/run_dropbear
 
 # Running ZSH
 CMD ["zsh"]
