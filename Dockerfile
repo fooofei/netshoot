@@ -1,4 +1,3 @@
-###
 FROM debian:stable-slim as fetcher
 COPY build/fetch_binaries.sh /tmp/fetch_binaries.sh
 
@@ -41,12 +40,12 @@ COPY ./scripts/build_rinetd.sh /tmp/build_rinetd.sh
 RUN chmod +x /tmp/build_rinetd.sh && /tmp/build_rinetd.sh
 
 ### 
-FROM alpine:3.16.0
+FROM alpine:3.16.2
 
 RUN set -ex \
-    && echo "http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
-    && echo "http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-    && echo "http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk update \
     && apk upgrade \
     && apk add --no-cache \
@@ -89,6 +88,7 @@ RUN set -ex \
     scapy \
     socat \
     speedtest-cli \
+    openssh \
     strace \
     tcpdump \
     tcptraceroute \
@@ -99,6 +99,8 @@ RUN set -ex \
     zsh \
     websocat \
     swaks \
+    perl-crypt-ssleay \
+    perl-net-ssleay
     aria2 \
     tree \
     pstree \
@@ -162,11 +164,10 @@ RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 COPY zshrc .zshrc
 COPY motd motd
-COPY usermanual usermanual
 
-
-# Fix permissions for OpenShift
+# Fix permissions for OpenShift and tshark
 RUN chmod -R g=u /root
+RUN chown root:root /usr/bin/dumpcap
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     sed -i "s/#PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config && \
