@@ -212,25 +212,25 @@ get_df_duf() {
   mv /tmp/dfduf/duf /tmp/duf
 }
 
-# Duf is a simple file server. Support static serve, search, upload, delete...
-get_file_server_duf() {
-  # e.g. https://api.github.com/repos/sigoden/duf/releases/latest   "name": "v0.7.0"
-  VERSION=$(get_latest_release sigoden/duf)
-  # https://github.com/sigoden/duf/releases/download/v0.7.0/duf-v0.7.0-x86_64-unknown-linux-musl.tar.gz
-  # https://github.com/sigoden/duf/releases/download/v0.7.0/duf-v0.7.0-aarch64-unknown-linux-musl.tar.gz
+# Dufs is a simple file server. Support static serve, search, upload, delete...
+get_file_server_dufs() {
+  # e.g. https://api.github.com/repos/sigoden/dufs/releases/latest   "name": "v0.7.0"
+  VERSION=$(get_latest_release sigoden/dufs)
+  # https://github.com/sigoden/dufs/releases/download/v0.7.0/dufs-v0.7.0-x86_64-unknown-linux-musl.tar.gz
+  # https://github.com/sigoden/dufs/releases/download/v0.7.0/dufs-v0.7.0-aarch64-unknown-linux-musl.tar.gz
   case "${ARCH}" in
     arm64)
-      FILE_NAME="duf-${VERSION}-aarch64"
+      FILE_NAME="dufs-${VERSION}-aarch64"
       ;;
     amd64)
-      FILE_NAME="duf-${VERSION}-x86_64"
+      FILE_NAME="dufs-${VERSION}-x86_64"
       ;;
   esac
-  LINK="https://github.com/sigoden/duf/releases/download/${VERSION}/${FILE_NAME}-unknown-linux-musl.tar.gz"
-  get_file "${LINK}" /tmp/file-server-duf.tar.gz && \
-  mkdir -p /tmp/file-server-duf && \
-  tar -xf /tmp/file-server-duf.tar.gz -C /tmp/file-server-duf && \
-  chmod +x /tmp/file-server-duf/duf
+  LINK="https://github.com/sigoden/dufs/releases/download/${VERSION}/${FILE_NAME}-unknown-linux-musl.tar.gz"
+  get_file "${LINK}" /tmp/file-server-dufs.tar.gz && \
+  mkdir -p /tmp/file-server-dufs && \
+  tar -xf /tmp/file-server-dufs.tar.gz -C /tmp/file-server-dufs && \
+  chmod +x /tmp/file-server-dufs/dufs
 }
 
 # Universal Package-management Tool for Windows, macOS and Linux.
