@@ -280,7 +280,7 @@ get_nerdctl
 get_fd_files
 get_gost
 get_df_duf
-get_file_server_duf
+get_file_server_dufs
 get_pmt_upt
 get_curl_xh
 get_small_step
