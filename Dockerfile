@@ -100,7 +100,7 @@ RUN set -ex \
     websocat \
     swaks \
     perl-crypt-ssleay \
-    perl-net-ssleay
+    perl-net-ssleay \
     aria2 \
     tree \
     pstree \
