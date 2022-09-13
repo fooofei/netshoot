@@ -145,6 +145,7 @@ COPY --from=fetcher /tmp/file-server-dufs/dufs /usr/local/bin/file-server-dufs
 COPY --from=fetcher /tmp/upt /usr/local/bin/upt
 COPY --from=fetcher /tmp/curl-xh /usr/local/bin/curl-xh
 COPY --from=fetcher /tmp/step /usr/local/bin/step
+COPY --from=fetcher /tmp/sx /usr/local/bin/sx
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 COPY --from=httpstat /usr/local/bin/httpstat /usr/local/bin/httpstat

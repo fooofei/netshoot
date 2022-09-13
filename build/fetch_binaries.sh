@@ -267,6 +267,17 @@ get_small_step() {
   chmod +x /tmp/step
 }
 
+# Fast, modern, easy-to-use network scanner
+get_sx() {
+  # e.g. https://api.github.com/repos/v-byte-cpu/sx/releases/latest    "tag_name": "v0.5.0",
+  VERSION=$(get_latest_release v-byte-cpu/sx | sed -e 's/^v//')
+  # https://github.com/v-byte-cpu/sx/releases/download/v0.5.0/sx_0.5.0_linux_amd64.tar.gz
+  LINK="https://github.com/v-byte-cpu/sx/releases/download/v${VERSION}/sx_${VERSION}_linux_amd64.tar.gz"
+  get_file "${LINK}" /tmp/sx_binary.tar.gz && \
+  tar -xf /tmp/sx_binary.tar.gz && \
+  chmod +x /tmp/sx
+}
+
 get_ctop
 get_calicoctl
 get_termshark
@@ -284,3 +295,4 @@ get_file_server_dufs
 get_pmt_upt
 get_curl_xh
 get_small_step
+get_sx
