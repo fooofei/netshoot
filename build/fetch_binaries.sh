@@ -274,7 +274,8 @@ get_sx() {
   # https://github.com/v-byte-cpu/sx/releases/download/v0.5.0/sx_0.5.0_linux_amd64.tar.gz
   LINK="https://github.com/v-byte-cpu/sx/releases/download/v${VERSION}/sx_${VERSION}_linux_amd64.tar.gz"
   get_file "${LINK}" /tmp/sx_binary.tar.gz && \
-  tar -xf /tmp/sx_binary.tar.gz && \
+  mkdir -p /tmp/sx_binary2 && tar -xf /tmp/sx_binary.tar.gz -C /tmp/sx_binary2 && \
+  mv /tmp/sx_binary2/sx /tmp/sx && \
   chmod +x /tmp/sx
 }
 
