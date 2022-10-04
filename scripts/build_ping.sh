@@ -13,8 +13,8 @@ go version
 
 cd $pkg_base_dir
 bash -x build.sh
-mv tcping/tcping-linux-amd64 /usr/local/bin/tcping
-mv httping/httping-linux-amd64 /usr/local/bin/httping
+mv cmd/tcp/tcp-linux-amd64 /usr/local/bin/tcping
+mv cmd/http/http-linux-amd64 /usr/local/bin/httping
 
 ls -al /usr/local/bin/tcping
 ls -al /usr/local/bin/httping
