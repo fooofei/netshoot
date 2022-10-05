@@ -35,7 +35,7 @@ RUN cd /tmp && git clone https://github.com/davecheney/httpstat.git && \
   cd httpstat && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/httpstat .
 
 ### 
-FROM golang:1.17.10 as rinetd
+FROM golang as rinetd
 COPY ./scripts/build_rinetd.sh /tmp/build_rinetd.sh 
 RUN chmod +x /tmp/build_rinetd.sh && /tmp/build_rinetd.sh
 
