@@ -11,7 +11,6 @@ git clone https://github.com/fooofei/rinetd.git
 go version
 
 cd ${home}/rinetd
-go mod vendor 
-go build -v -mod=vendor -tags netgo -o /usr/local/bin/rinetd .
+go build -v -tags netgo -o /usr/local/bin/rinetd .
 
 ls -al /usr/local/bin/rinetd
