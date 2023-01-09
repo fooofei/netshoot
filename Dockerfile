@@ -20,7 +20,8 @@ COPY ./scripts/build_ping.sh /tmp/build_ping.sh
 RUN chmod +x /tmp/build_ping.sh && /tmp/build_ping.sh
 
 ### github prebuild binarys not include aarch64, so we build it ourself
-FROM golang:1.17.10 as ethr 
+# golang:1.17.10 已经不适用
+FROM golang as ethr 
 RUN cd /tmp && git clone https://github.com/Microsoft/ethr.git && \
   cd ethr && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/ethr .
 
