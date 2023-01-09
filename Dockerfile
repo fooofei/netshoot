@@ -17,28 +17,42 @@ RUN chmod +x /usr/local/bin/shelldoor && \
 ###
 FROM golang as xping 
 COPY ./scripts/build_ping.sh /tmp/build_ping.sh 
-RUN chmod +x /tmp/build_ping.sh && /tmp/build_ping.sh
+RUN go version && \
+  chmod +x /tmp/build_ping.sh && \
+  /tmp/build_ping.sh
 
 ### github prebuild binarys not include aarch64, so we build it ourself
 # golang:1.17.10 已经不适用
+# ethr 项目并没有把所有需要的依赖都在 go.mod 声明，所以需要 go mod tidy
 FROM golang as ethr 
-RUN cd /tmp && git clone https://github.com/Microsoft/ethr.git && \
-  cd ethr && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/ethr .
+RUN go version && \
+  cd /tmp && \
+  git clone https://github.com/Microsoft/ethr.git && \
+  cd ethr && \
+  go mod tidy && \
+  go build -v -tags netgo -o /usr/local/bin/ethr .
 
 ### 
 FROM golang as topic 
 COPY ./scripts/build_topic.sh /tmp/build_topic.sh 
-RUN chmod +x /tmp/build_topic.sh && /tmp/build_topic.sh
+RUN go version && \
+  chmod +x /tmp/build_topic.sh && \
+  /tmp/build_topic.sh
 
 ### 
 FROM golang as httpstat 
-RUN cd /tmp && git clone https://github.com/davecheney/httpstat.git && \
-  cd httpstat && go mod vendor &&  go build -v -mod=vendor -tags netgo -o /usr/local/bin/httpstat .
+RUN go version && \
+  cd /tmp && \
+  git clone https://github.com/davecheney/httpstat.git && \
+  cd httpstat && \
+  go build -v -tags netgo -o /usr/local/bin/httpstat .
 
 ### 
 FROM golang as rinetd
 COPY ./scripts/build_rinetd.sh /tmp/build_rinetd.sh 
-RUN chmod +x /tmp/build_rinetd.sh && /tmp/build_rinetd.sh
+RUN go version && \
+  chmod +x /tmp/build_rinetd.sh && \
+  /tmp/build_rinetd.sh
 
 ### 
 FROM alpine:3.17.0
