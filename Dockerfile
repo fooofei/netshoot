@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
   curl \
   wget
 
-RUN bash -x /tmp/fetch_binaries.sh
+RUN bash /tmp/fetch_binaries.sh
 
 ### 自定义二进制
 ###
@@ -40,7 +40,7 @@ COPY ./scripts/build_rinetd.sh /tmp/build_rinetd.sh
 RUN chmod +x /tmp/build_rinetd.sh && /tmp/build_rinetd.sh
 
 ### 
-FROM alpine:3.16.2
+FROM alpine:3.17.0
 
 RUN set -ex \
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
