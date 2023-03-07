@@ -63,6 +63,20 @@ get_termshark() {
   esac
 }
 
+get_grpcurl() {
+  if [ "$ARCH" == "amd64" ]; then
+    TERM_ARCH=x86_64
+  else
+    TERM_ARCH="$ARCH"
+  fi
+  VERSION=$(get_latest_release fullstorydev/grpcurl | sed -e 's/^v//')
+  LINK="https://github.com/fullstorydev/grpcurl/releases/download/v${VERSION}/grpcurl_${VERSION}_linux_${TERM_ARCH}.tar.gz"
+  get_file "$LINK" /tmp/grpcurl.tar.gz  && \
+  tar -zxvf /tmp/grpcurl.tar.gz && \
+  mv "grpcurl" /tmp/grpcurl && \
+  chmod +x /tmp/grpcurl
+}
+
 get_miniserve() {
     VERSION=$(get_latest_release svenstaro/miniserve)
     if [ "$ARCH" == "amd64" ]; then
@@ -282,6 +296,7 @@ get_sx() {
 get_ctop
 get_calicoctl
 get_termshark
+get_grpcurl
 get_miniserve
 get_micro
 get_dust

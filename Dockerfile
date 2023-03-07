@@ -55,7 +55,7 @@ RUN go version && \
   /tmp/build_rinetd.sh
 
 ### 
-FROM alpine:3.17.0
+FROM alpine:3.17.2
 
 RUN set -ex \
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
@@ -82,13 +82,15 @@ RUN set -ex \
     iperf3 \
     iproute2 \
     ipset \
-    iptables \ 
+    iptables \
     iptraf-ng \
     iputils \
     ipvsadm \
+    httpie \
     jq \
     libc6-compat \
     liboping \
+    ltrace \
     mtr \
     net-snmp-tools \
     netcat-openbsd \
@@ -129,9 +131,6 @@ RUN set -ex \
     openssh-sftp-server \
     tzdata \
     dropbear
-
-# Installing httpie ( https://httpie.io/docs#installation)
-RUN pip3 install --upgrade httpie
 
 # Installing ctop - top-like container monitor
 COPY --from=fetcher /tmp/ctop /usr/local/bin/ctop
