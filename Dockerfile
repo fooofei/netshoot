@@ -55,7 +55,7 @@ RUN go version && \
   /tmp/build_rinetd.sh
 
 ### 
-FROM alpine:3.18.0
+FROM alpine:3.18.2
 
 RUN set -ex \
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
