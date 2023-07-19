@@ -85,7 +85,7 @@ get_fortio() {
   fi
   VERSION=$(get_latest_release fortio/fortio | sed -e 's/^v//')
   LINK="https://github.com/fortio/fortio/releases/download/v${VERSION}/fortio-linux_${ARCH}-${VERSION}.tgz"
-  get_file "$LINK" -O /tmp/fortio.tgz  && \
+  get_file "$LINK" /tmp/fortio.tgz  && \
   tar -zxvf /tmp/fortio.tgz && \
   mv "usr/bin/fortio" /tmp/fortio && \
   chmod +x /tmp/fortio
