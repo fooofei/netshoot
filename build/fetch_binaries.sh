@@ -77,6 +77,20 @@ get_grpcurl() {
   chmod +x /tmp/grpcurl
 }
 
+get_fortio() {
+  if [ "$ARCH" == "amd64" ]; then
+    TERM_ARCH=x86_64
+  else
+    TERM_ARCH="$ARCH"
+  fi
+  VERSION=$(get_latest_release fortio/fortio | sed -e 's/^v//')
+  LINK="https://github.com/fortio/fortio/releases/download/v${VERSION}/fortio-linux_${ARCH}-${VERSION}.tgz"
+  get_file "$LINK" -O /tmp/fortio.tgz  && \
+  tar -zxvf /tmp/fortio.tgz && \
+  mv "usr/bin/fortio" /tmp/fortio && \
+  chmod +x /tmp/fortio
+}
+
 get_miniserve() {
     VERSION=$(get_latest_release svenstaro/miniserve)
     if [ "$ARCH" == "amd64" ]; then
@@ -99,7 +113,7 @@ get_micro() {
     get_file "${LINK}" /tmp/micro.tar.gz && \
     tar -zxvf /tmp/micro.tar.gz && \
     mv "micro-${VERSION}/micro" /tmp/micro && \
-    chmod +x /tmp/miniserve
+    chmod +x /tmp/micro
 }
 
 get_dust() {
@@ -297,6 +311,7 @@ get_ctop
 get_calicoctl
 get_termshark
 get_grpcurl
+get_fortio
 get_miniserve
 get_micro
 get_dust
