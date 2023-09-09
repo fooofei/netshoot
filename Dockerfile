@@ -55,7 +55,7 @@ RUN go version && \
   /tmp/build_rinetd.sh
 
 ### 
-FROM alpine:3.18.2
+FROM alpine:3.18.3
 
 RUN set -ex \
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
@@ -173,13 +173,6 @@ COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rust
 USER root
 WORKDIR /root
 ENV HOSTNAME netshoot
-
-# ZSH Themes
-RUN curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
-RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-COPY zshrc .zshrc
-COPY motd motd
 
 # Fix permissions for OpenShift and tshark
 RUN chmod -R g=u /root
