@@ -157,7 +157,6 @@ COPY --from=fetcher /tmp/fd /usr/local/bin/fd
 COPY --from=fetcher /tmp/gost /usr/local/bin/gost
 COPY --from=fetcher /tmp/duf /usr/local/bin/duf
 COPY --from=fetcher /tmp/file-server-dufs/dufs /usr/local/bin/dufs
-COPY --from=fetcher /tmp/upt /usr/local/bin/upt
 COPY --from=fetcher /tmp/curl-xh /usr/local/bin/curl-xh
 COPY --from=fetcher /tmp/step /usr/local/bin/step
 COPY --from=fetcher /tmp/sx /usr/local/bin/sx
