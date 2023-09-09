@@ -262,6 +262,7 @@ get_file_server_dufs() {
 }
 
 # Universal Package-management Tool for Windows, macOS and Linux.
+# this package is no longer mantained, so we drop it.
 get_pmt_upt() {
   # e.g. https://api.github.com/repos/sigoden/upt/releases/latest   "tag_name": "v0.7.0",
   VERSION=$(get_latest_release sigoden/upt)
@@ -323,7 +324,6 @@ get_fd_files
 get_gost
 get_df_duf
 get_file_server_dufs
-get_pmt_upt
 get_curl_xh
 get_small_step
 get_sx
