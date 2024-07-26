@@ -48,13 +48,6 @@ RUN go version && \
   go build -v -tags netgo -o /usr/local/bin/httpstat .
 
 ### 
-FROM golang as rinetd
-COPY ./scripts/build_rinetd.sh /tmp/build_rinetd.sh 
-RUN go version && \
-  chmod +x /tmp/build_rinetd.sh && \
-  /tmp/build_rinetd.sh
-
-### 
 FROM alpine:3.20.2
 
 RUN set -ex \
@@ -169,7 +162,6 @@ COPY --from=fetcher /tmp/sx /usr/local/bin/sx
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 COPY --from=httpstat /usr/local/bin/httpstat /usr/local/bin/httpstat
-COPY --from=rinetd /usr/local/bin/rinetd /usr/local/bin/rinetd
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
