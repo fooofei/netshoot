@@ -55,7 +55,7 @@ RUN go version && \
   /tmp/build_rinetd.sh
 
 ### 
-FROM alpine:3.18.3
+FROM alpine:3.20.2
 
 RUN set -ex \
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
@@ -141,6 +141,12 @@ COPY --from=fetcher /tmp/calicoctl /usr/local/bin/calicoctl
 
 # Installing termshark
 COPY --from=fetcher /tmp/termshark /usr/local/bin/termshark
+
+# Installing grpcurl
+COPY --from=fetcher /tmp/grpcurl /usr/local/bin/grpcurl
+
+# Installing fortio
+COPY --from=fetcher /tmp/fortio /usr/local/bin/fortio
 
 COPY --from=xping /usr/local/bin/httping /usr/local/bin/httping
 COPY --from=xping /usr/local/bin/tcping /usr/local/bin/tcping
