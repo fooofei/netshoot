@@ -36,7 +36,7 @@ get_ctop() {
 
 # Cloud native networking and network security
 get_calicoctl() {
-  VERSION=$(get_latest_release projectcalico/calico)
+  VERSION=$(get_latest_release projectcalico/calico) # calicoctl is old, new is calico
   LINK="https://github.com/projectcalico/calico/releases/download/${VERSION}/calicoctl-linux-${ARCH}"
   get_file "$LINK"  /tmp/calicoctl && chmod +x /tmp/calicoctl
 }
