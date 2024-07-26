@@ -181,9 +181,7 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     ssh-keygen -t dsa -P "" -f /etc/ssh/ssh_host_dsa_key && \
     ssh-keygen -t rsa -P "" -f /etc/ssh/ssh_host_rsa_key && \
     ssh-keygen -t ecdsa -P "" -f /etc/ssh/ssh_host_ecdsa_key && \
-    ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key && \
-    mkdir /etc/dropbear && \ 
-    echo "dropbear -RFEm -p 22" > /usr/local/bin/run_dropbear && chmod +x /usr/local/bin/run_dropbear
+    ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key
 
 # Running ZSH
 CMD ["zsh"]
