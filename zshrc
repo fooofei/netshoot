@@ -76,7 +76,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 # User configuration
-# cat motd
+# cat motd # 不要这个
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -139,6 +139,6 @@ POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 
 # Colorise the top Tabs of Iterm2 with the same color as background
 # Just change the 18/26/33 wich are the rgb values
-# echo -e "\033]6;1;bg;red;brightness;18\a"
+# echo -e "\033]6;1;bg;red;brightness;18\a"  # 不要这些
 # echo -e "\033]6;1;bg;green;brightness;26\a"
 # echo -e "\033]6;1;bg;blue;brightness;33\a"

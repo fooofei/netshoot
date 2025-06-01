@@ -48,7 +48,7 @@ RUN go version && \
   go build -v -tags netgo -o /usr/local/bin/httpstat .
 
 ### 
-FROM alpine:3.20.2
+FROM alpine:3.22.0
 
 RUN set -ex \
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
@@ -161,7 +161,9 @@ COPY --from=fetcher /tmp/step /usr/local/bin/step
 COPY --from=fetcher /tmp/sx /usr/local/bin/sx
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
-COPY --from=httpstat /usr/local/bin/httpstat /usr/local/bin/httpstat
+COPY --from=fetcher /tmp/mitmweb /usr/local/bin/mitmweb
+COPY --from=fetcher /tmp/mitmdump /usr/local/bin/mitmdump
+COPY --from=fetcher /tmp/mitmproxy /usr/local/bin/mitmproxy
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan

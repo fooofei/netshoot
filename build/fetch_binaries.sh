@@ -34,19 +34,14 @@ get_ctop() {
   get_file "$LINK" /tmp/ctop && chmod +x /tmp/ctop
 }
 
-# Cloud native networking and network security
 get_calicoctl() {
   VERSION=$(get_latest_release projectcalico/calico) # calicoctl is old, new is calico
   LINK="https://github.com/projectcalico/calico/releases/download/${VERSION}/calicoctl-linux-${ARCH}"
   get_file "$LINK"  /tmp/calicoctl && chmod +x /tmp/calicoctl
 }
 
-# A terminal UI for tshark, inspired by Wireshark
 get_termshark() {
   case "$ARCH" in
-    "arm"*)
-      echo "echo termshark does not yet support arm" > /tmp/termshark && chmod +x /tmp/termshark
-      ;;
     *)
       VERSION=$(get_latest_release gcla/termshark | sed -e 's/^v//')
       if [ "$ARCH" == "amd64" ]; then
@@ -72,9 +67,10 @@ get_grpcurl() {
   VERSION=$(get_latest_release fullstorydev/grpcurl | sed -e 's/^v//')
   LINK="https://github.com/fullstorydev/grpcurl/releases/download/v${VERSION}/grpcurl_${VERSION}_linux_${TERM_ARCH}.tar.gz"
   get_file "$LINK" /tmp/grpcurl.tar.gz  && \
-  tar -zxvf /tmp/grpcurl.tar.gz && \
+  tar --no-same-owner -zxvf /tmp/grpcurl.tar.gz && \
   mv "grpcurl" /tmp/grpcurl && \
   chmod +x /tmp/grpcurl
+  chown root:root /tmp/grpcurl
 }
 
 get_fortio() {
@@ -308,6 +304,24 @@ get_sx() {
   chmod +x /tmp/sx
 }
 
+get_mitmproxy() {
+  VERSION=$(get_latest_release mitmproxy/mitmproxy | sed -e 's/^v//') # e.g. 12.1.1
+  case "${ARCH}" in
+    arm64)
+      FILE_NAME="mitmproxy-${VERSION}-linux-aarch64.tar.gz"
+      ;;
+    amd64)
+      FILE_NAME="mitmproxy-${VERSION}-linux-x86_64.tar.gz"
+      ;;
+  esac
+  LINK="https://downloads.mitmproxy.org/${VERSION}/${FILE_NAME}"
+  get_file "${LINK}" /tmp/mitm_binary.tar.gz && \
+  mkdir -p /tmp/mitm_binary2 && tar -xf /tmp/mitm_binary.tar.gz -C /tmp/mitm_binary2 && \
+  mv /tmp/sx_binary2/mitmweb /tmp/mitmweb && chmod +x /tmp/mitmweb \
+  mv /tmp/sx_binary2/mitmdump /tmp/mitmdump && chmod +x /tmp/mitmdump \
+  mv /tmp/sx_binary2/mitmproxy /tmp/mitmproxy && chmod +x /tmp/mitmproxy
+}
+
 get_ctop
 get_calicoctl
 get_termshark
@@ -327,3 +341,4 @@ get_file_server_dufs
 get_curl_xh
 get_small_step
 get_sx
+get_mitmproxy
