@@ -169,7 +169,7 @@ COPY --from=python /usr/local/bin/python3 /usr/local/bin/
 COPY --from=python /usr/local/lib/libpython3.so /usr/local/lib/
 COPY --from=python /usr/local/lib/libpython3.13.so.1.0 /usr/local/lib/
 COPY --from=python /usr/local/lib/libpython3.13.so /usr/local/lib/
-COPY --from=python /usr/local/lib/python3.13 /usr/local/lib/
+COPY --from=python /usr/local/lib/python3.13 /usr/local/lib/python3.13
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
