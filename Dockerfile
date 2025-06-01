@@ -47,6 +47,8 @@ RUN go version && \
   cd httpstat && \
   go build -v -tags netgo -o /usr/local/bin/httpstat .
 
+FROM python:3.13.3-alpine3.22 as python
+
 ### 
 FROM alpine:3.22.0
 
@@ -115,7 +117,6 @@ RUN set -ex \
     pstree \
     htop \
     coreutils \
-    uv \
     nmap-ncat \
     nmap-scripts \
     axel \
@@ -162,6 +163,7 @@ COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 COPY --from=fetcher /tmp/mitmweb /usr/local/bin/mitmweb
 COPY --from=fetcher /tmp/mitmdump /usr/local/bin/mitmdump
 COPY --from=fetcher /tmp/mitmproxy /usr/local/bin/mitmproxy
+COPY --from=python /usr/local/bin/python3 /usr/local/bin/python3
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
