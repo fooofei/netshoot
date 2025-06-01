@@ -125,7 +125,11 @@ RUN set -ex \
     tzdata \
     dropbear \
     python3 \
-    uv
+    uv \
+    python3-dev \
+    musl-dev \
+    build-base \
+    pipx
 
 # Installing ctop - top-like container monitor
 COPY --from=fetcher /tmp/ctop /usr/local/bin/ctop
@@ -173,7 +177,6 @@ COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 # COPY --from=python /usr/local/lib/libpython3.13.so.1.0 /usr/local/lib/
 # RUN ln -s /usr/local/lib/libpython3.13.so.1.0 /usr/local/lib/libpython3.13.so
 # COPY --from=python /usr/local/lib/python3.13 /usr/local/lib/python3.13
-RUN apk add build-base && pip3 install pipx --break-system-packages
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
