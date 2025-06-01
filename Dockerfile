@@ -173,7 +173,7 @@ COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 # COPY --from=python /usr/local/lib/libpython3.13.so.1.0 /usr/local/lib/
 # RUN ln -s /usr/local/lib/libpython3.13.so.1.0 /usr/local/lib/libpython3.13.so
 # COPY --from=python /usr/local/lib/python3.13 /usr/local/lib/python3.13
-RUN pip3 install pipx --break-system-packages  && pipx install mitmproxy
+RUN apk add build-base && pip3 install pipx --break-system-packages  && pipx install mitmproxy
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
