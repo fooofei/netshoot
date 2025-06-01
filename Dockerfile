@@ -162,9 +162,9 @@ COPY --from=fetcher /tmp/step /usr/local/bin/step
 COPY --from=fetcher /tmp/sx /usr/local/bin/sx
 COPY --from=ethr /usr/local/bin/ethr /usr/local/bin/ethr
 COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
-COPY --from=fetcher /tmp/mitmweb /usr/local/bin/mitmweb
-COPY --from=fetcher /tmp/mitmdump /usr/local/bin/mitmdump
-COPY --from=fetcher /tmp/mitmproxy /usr/local/bin/mitmproxy
+# COPY --from=fetcher /tmp/mitmweb /usr/local/bin/mitmweb  # 报错，在 alpine 中不支持
+# COPY --from=fetcher /tmp/mitmdump /usr/local/bin/mitmdump
+# COPY --from=fetcher /tmp/mitmproxy /usr/local/bin/mitmproxy
 # alpine 最高提供 3.12 因此我们自己升级
 # COPY --from=python /usr/local/bin/python3.13-config /usr/local/bin/
 # RUN ln -s /usr/local/bin/python3.13 /usr/local/bin/python3 
