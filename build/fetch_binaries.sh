@@ -317,8 +317,8 @@ get_mitmproxy() {
   LINK="https://downloads.mitmproxy.org/${VERSION}/${FILE_NAME}"
   get_file "${LINK}" /tmp/mitm_binary.tar.gz && \
   mkdir -p /tmp/mitm_binary2 && tar -xf /tmp/mitm_binary.tar.gz -C /tmp/mitm_binary2 && \
-  mv /tmp/mitm_binary2/mitmweb /tmp/mitmweb && chmod +x /tmp/mitmweb \
-  mv /tmp/mitm_binary2/mitmdump /tmp/mitmdump && chmod +x /tmp/mitmdump \
+  mv /tmp/mitm_binary2/mitmweb /tmp/mitmweb && chmod +x /tmp/mitmweb && \
+  mv /tmp/mitm_binary2/mitmdump /tmp/mitmdump && chmod +x /tmp/mitmdump && \
   mv /tmp/mitm_binary2/mitmproxy /tmp/mitmproxy && chmod +x /tmp/mitmproxy
 }
 
