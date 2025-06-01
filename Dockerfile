@@ -93,8 +93,6 @@ RUN set -ex \
     nmap-nping \
     nmap-scripts \
     openssl \
-    py3-pip \
-    py3-setuptools \
     scapy \
     socat \
     speedtest-cli \
@@ -117,7 +115,7 @@ RUN set -ex \
     pstree \
     htop \
     coreutils \
-    python3 \
+    uv \
     nmap-ncat \
     nmap-scripts \
     axel \
