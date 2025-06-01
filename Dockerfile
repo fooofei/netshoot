@@ -163,7 +163,13 @@ COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 COPY --from=fetcher /tmp/mitmweb /usr/local/bin/mitmweb
 COPY --from=fetcher /tmp/mitmdump /usr/local/bin/mitmdump
 COPY --from=fetcher /tmp/mitmproxy /usr/local/bin/mitmproxy
-COPY --from=python /usr/local/bin/python3 /usr/local/bin/python3
+COPY --from=python /usr/local/bin/python3.13-config /usr/local/bin/
+COPY --from=python /usr/local/bin/python3.13 /usr/local/bin/
+COPY --from=python /usr/local/bin/python3 /usr/local/bin/
+COPY --from=python /usr/local/lib/libpython3.so /usr/local/bin/
+COPY --from=python /usr/local/lib/libpython3.13.so.1.0 /usr/local/bin/
+COPY --from=python /usr/local/lib/libpython3.13.so /usr/local/bin/
+COPY --from=python /usr/local/lib/python3.13 /usr/local/bin/
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
