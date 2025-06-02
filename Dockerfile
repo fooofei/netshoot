@@ -123,13 +123,14 @@ RUN set -ex \
     openssh \
     openssh-sftp-server \
     tzdata \
-    dropbear \
-    python3 \
-    uv \
-    python3-dev \
-    musl-dev \
-    build-base \
-    pipx
+    dropbear 
+
+    # python3 \
+    # uv \
+    # pipx
+
+    # mitmproxy 需要 python.h   python3-dev  musl-dev  openssl-dev build-base \
+    # mitmproxy 需要 src/aioquic/_crypto.c:4:10: fatal error: openssl/err.h: No such file or directory
 
 # Installing ctop - top-like container monitor
 COPY --from=fetcher /tmp/ctop /usr/local/bin/ctop
@@ -170,13 +171,13 @@ COPY --from=topic /usr/local/bin/topic /usr/local/bin/topic
 # COPY --from=fetcher /tmp/mitmdump /usr/local/bin/mitmdump
 # COPY --from=fetcher /tmp/mitmproxy /usr/local/bin/mitmproxy
 # alpine 最高提供 3.12 因此我们自己升级
-# COPY --from=python /usr/local/bin/python3.13-config /usr/local/bin/
-# RUN ln -s /usr/local/bin/python3.13 /usr/local/bin/python3 
-# COPY --from=python /usr/local/bin/python3 /usr/local/bin/
-# COPY --from=python /usr/local/lib/libpython3.so /usr/local/lib/
-# COPY --from=python /usr/local/lib/libpython3.13.so.1.0 /usr/local/lib/
-# RUN ln -s /usr/local/lib/libpython3.13.so.1.0 /usr/local/lib/libpython3.13.so
-# COPY --from=python /usr/local/lib/python3.13 /usr/local/lib/python3.13
+COPY --from=python /usr/local/bin/python3.13-config /usr/local/bin/
+RUN ln -s /usr/local/bin/python3.13 /usr/local/bin/python3 
+COPY --from=python /usr/local/bin/python3 /usr/local/bin/
+COPY --from=python /usr/local/lib/libpython3.so /usr/local/lib/
+COPY --from=python /usr/local/lib/libpython3.13.so.1.0 /usr/local/lib/
+RUN ln -s /usr/local/lib/libpython3.13.so.1.0 /usr/local/lib/libpython3.13.so
+COPY --from=python /usr/local/lib/python3.13 /usr/local/lib/python3.13
 
 # copy rustscan from another image
 COPY --from=rustscan/rustscan:latest /usr/local/bin/rustscan /usr/local/bin/rustscan
